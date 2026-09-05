@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>闪光倒计时 - 重要日子闪光提醒</title>
+<meta name="description" content="一款专注仪式感的精美多场景倒计时工具，闪光动效点亮每一个重要时刻，覆盖考试、纪念日、节日、生日、Deadline等全场景。">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; line-height: 1.6; color: #333; background: #fff; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+a { text-decoration: none; color: inherit; }
+
+.hero {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 35%, #FF8C00 70%, #FF6B35 100%);
+  color: #fff;
+  padding: 100px 0 120px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
+  animation: sparkle 8s ease-in-out infinite;
+}
+@keyframes sparkle {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+  50% { transform: translate(5%, 5%) scale(1.1); opacity: 1; }
+}
+.hero-content { position: relative; z-index: 1; }
+.hero h1 {
+  font-size: 56px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  letter-spacing: 2px;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.hero .subtitle {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 28px;
+  opacity: 0.95;
+}
+.hero .desc {
+  font-size: 17px;
+  max-width: 720px;
+  margin: 0 auto 48px;
+  opacity: 0.9;
+  line-height: 1.8;
+}
+.hero-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+.btn-primary, .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 40px;
+  border-radius: 50px;
+  font-size: 17px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+.btn-primary {
+  background: #fff;
+  color: #FF8C00;
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.25); }
+.btn-secondary {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  border: 2px solid rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+}
+.btn-secondary:hover { background: rgba(255,255,255,0.35); transform: translateY(-3px); }
+.slogan {
+  margin-top: 36px;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  opacity: 0.9;
+}
+
+.section { padding: 90px 0; }
+.section-alt { background: #FFF9F2; }
+.section-title {
+  text-align: center;
+  font-size: 38px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 16px;
+}
+.section-subtitle {
+  text-align: center;
+  font-size: 17px;
+  color: #777;
+  margin-bottom: 60px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 28px;
+}
+.feature-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 36px 28px;
+  box-shadow: 0 4px 20px rgba(255,140,0,0.08);
+  border: 1px solid rgba(255,140,0,0.1);
+  transition: all 0.3s ease;
+}
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(255,140,0,0.18);
+  border-color: rgba(255,140,0,0.3);
+}
+.feature-icon {
+  font-size: 52px;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+.feature-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #FF8C00;
+  margin-bottom: 14px;
+}
+.feature-card p {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.7;
+}
+
+.scenes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+.scene-card {
+  background: linear-gradient(145deg, #fff, #FFF9F2);
+  border-radius: 18px;
+  padding: 40px 28px;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+.scene-card:hover {
+  border-color: #FFA500;
+  transform: scale(1.03);
+}
+.scene-emoji { font-size: 64px; margin-bottom: 20px; }
+.scene-card h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 12px;
+}
+.scene-card p {
+  font-size: 15px;
+  color: #777;
+  line-height: 1.7;
+}
+
+.download-section {
+  background: linear-gradient(135deg, #FF6B35 0%, #FF8C00 50%, #FFD700 100%);
+  color: #fff;
+  text-align: center;
+  padding: 100px 0;
+}
+.download-section h2 {
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.download-section .tagline {
+  font-size: 19px;
+  opacity: 0.95;
+  margin-bottom: 48px;
+  letter-spacing: 1px;
+}
+.download-buttons {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 44px;
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: 600;
+  background: #fff;
+  color: #333;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+}
+.download-btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 14px 40px rgba(0,0,0,0.3); }
+.download-btn .icon { font-size: 28px; }
+.download-btn .text small { display: block; font-size: 12px; color: #888; font-weight: 400; }
+
+.faq-wrapper { max-width: 860px; margin: 0 auto; }
+.faq-item {
+  background: #fff;
+  border-radius: 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  overflow: hidden;
+  border: 1px solid #F0E6D8;
+}
+.faq-question {
+  padding: 22px 28px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #333;
+  background: linear-gradient(90deg, #FFF9F2, #fff);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s;
+}
+.faq-question:hover { background: linear-gradient(90deg, #FFEFD5, #FFF9F2); }
+.faq-question::after {
+  content: "+";
+  font-size: 24px;
+  font-weight: 400;
+  color: #FF8C00;
+  transition: transform 0.3s ease;
+}
+.faq-item.open .faq-question::after { transform: rotate(45deg); }
+.faq-answer {
+  padding: 0 28px;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.35s ease;
+  font-size: 15px;
+  color: #666;
+  line-height: 1.8;
+}
+.faq-item.open .faq-answer { padding: 0 28px 24px; max-height: 400px; }
+
+footer {
+  background: #1a1a1a;
+  color: #aaa;
+  padding: 48px 0 32px;
+  text-align: center;
+}
+footer .footer-brand {
+  font-size: 20px;
+  font-weight: 700;
+  color: #FFD700;
+  margin-bottom: 12px;
+}
+footer .footer-slogan {
+  font-size: 14px;
+  margin-bottom: 24px;
+  letter-spacing: 2px;
+}
+footer .copyright {
+  font-size: 13px;
+  opacity: 0.7;
+  border-top: 1px solid #333;
+  padding-top: 20px;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .hero { padding: 70px 0 90px; }
+  .hero h1 { font-size: 38px; }
+  .hero .subtitle { font-size: 19px; }
+  .hero .desc { font-size: 15px; }
+  .section { padding: 60px 0; }
+  .section-title { font-size: 28px; }
+  .section-subtitle { font-size: 15px; margin-bottom: 40px; }
+  .download-section h2 { font-size: 30px; }
+  .features-grid, .scenes-grid { grid-template-columns: 1fr; gap: 20px; }
+  .btn-primary, .btn-secondary { padding: 14px 32px; font-size: 15px; }
+  .download-btn { padding: 15px 32px; font-size: 15px; }
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MobileApplication",
+  "name": "闪光倒计时",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "iOS, Android",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CNY"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "12580"
+  },
+  "description": "一款专注仪式感的精美多场景倒计时工具，闪光动效点亮每一个重要时刻，覆盖考试、纪念日、节日、生日、Deadline等全场景。"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "闪光倒计时支持哪些平台？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "闪光倒计时支持 iOS 与 Android 双端同步使用。iOS 用户可前往 App Store 下载，Android 用户可在华为应用市场、小米应用商店、OPPO 软件商店等主流安卓应用市场下载，同时也支持官网直接下载安装包。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "闪光倒计时的数据安全吗？会丢失吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "闪光倒计时承诺用户数据安全可靠。应用支持云端同步备份功能，登录账号后所有倒计时事件、主题设置、提醒配置会自动同步至云端，换机、重装均不会丢失数据；同时采用端到端加密存储，严格保护用户隐私。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "闪光倒计时有广告吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "闪光倒计时承诺纯净无广告体验。我们不会在应用内插入任何 Banner 广告、插屏广告、视频广告或弹窗推广，全力保障用户专注使用、无干扰地记录每一个重要日子。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "闪光倒计时可以设置多少个倒计时事件？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "闪光倒计时支持设置无上限数量的倒计时事件。无论是考试日程、情侣纪念日、宝宝成长节点、职场 Deadline、节日假期还是个人目标，您都可以随心创建并分类管理，多维度标签筛选让查找一目了然。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "闪光动效可以自定义吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "闪光倒计时的闪光动效支持深度自定义。应用内置 100+ 精美主题，涵盖渐变背景、字体样式、数字皮肤等维度；倒计时归零瞬间的闪光动画、粒子爆炸效果、屏幕震动力度均可自由调节，打造专属于你的仪式感动效。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "闪光倒计时适合哪些使用场景？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "闪光倒计时适用于全场景使用：学生党可用于中高考、考研、考证等考试冲刺倒计时；情侣可记录恋爱纪念日、求婚、婚礼等浪漫时刻；职场人可追踪项目 Deadline、入职周年、跳槽节点；宝妈宝爸可记录宝宝出生天数、百日宴、周岁生日；此外还支持节日假期、生日祝福、旅行出发等多种场景，内置 20+ 精选场景模板一键套用。"
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="container hero-content">
+    <h1>闪光倒计时</h1>
+    <div class="subtitle">重要日子闪光提醒</div>
+    <p class="desc">一款专注仪式感的精美多场景倒计时工具，闪光动效点亮每一个重要时刻，覆盖考试、纪念日、节日、生日、Deadline等全场景。</p>
+    <div class="hero-buttons">
+      <a href="https://apps.apple.com/cn/app/XXXXXXX" class="btn-primary" target="_blank" rel="noopener">
+        <span style="font-size:22px;">📱</span>
+        <span>iOS 下载</span>
+      </a>
+      <a href="https://appgallery.huawei.com/app/XXXXXXX" class="btn-secondary" target="_blank" rel="noopener">
+        <span style="font-size:22px;">🤖</span>
+        <span>Android 下载</span>
+      </a>
+    </div>
+    <div class="slogan">每一个重要日子，都值得闪光纪念</div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">五大核心功能</h2>
+    <p class="section-subtitle">多场景模板 · 闪光动效 · 自定义主题 · 智能提醒 · 双向模式，全方位满足你的倒计时需求</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>多场景倒计时模板</h3>
+        <p>内置考试冲刺、恋爱情侣、生日祝福、节日节气、项目 Deadline、入职/毕业等 20+ 精选场景模板，一键套用无需从零开始。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✨</div>
+        <h3>闪光仪式感动效</h3>
+        <p>倒计时归零瞬间触发专属闪光动画、粒子爆炸与屏幕震动特效，让重要时刻充满惊喜与仪式感。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <h3>自定义视觉主题</h3>
+        <p>支持 100+ 精美渐变背景、15 种字体样式、8 款数字皮肤自由搭配，轻松打造专属你的倒计时美学。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔔</div>
+        <h3>全周期智能提醒</h3>
+        <p>提前 30 天 / 7 天 / 1 天 / 1 小时 / 实时多级提醒，支持锁屏通知与桌面小组件，绝不错过任何重要日子。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔄</div>
+        <h3>倒数正数双向模式</h3>
+        <p>不仅能记录"还有多久到"，也能回溯"已经过了多久"，人生里程碑与纪念日双向见证。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">四大适用场景</h2>
+    <p class="section-subtitle">闪光倒计时，陪伴你人生中的每一个高光时刻</p>
+    <div class="scenes-grid">
+      <div class="scene-card">
+        <div class="scene-emoji">📚</div>
+        <h3>学生党考试冲刺</h3>
+        <p>中考、高考、考研、考证…设置目标日期，闪光倒计时陪你每日打卡冲刺，归零那一刻闪耀你的努力成果。</p>
+      </div>
+      <div class="scene-card">
+        <div class="scene-emoji">💑</div>
+        <h3>情侣纪念日</h3>
+        <p>恋爱第 100 天、一周年、求婚日、婚礼日…闪光动效让每一个浪漫节点都充满仪式感，双向记录走过的时光。</p>
+      </div>
+      <div class="scene-card">
+        <div class="scene-emoji">💼</div>
+        <h3>职场 Deadline</h3>
+        <p>项目上线、方案提交、季度复盘、入职周年…多级智能提醒 + 桌面小组件，让你高效掌控每一个关键节点。</p>
+      </div>
+      <div class="scene-card">
+        <div class="scene-emoji">👶</div>
+        <h3>宝妈宝宝成长</h3>
+        <p>宝宝出生第 1 天、百日宴、周岁生日、第一天上幼儿园…正数模式见证每一个珍贵成长瞬间，闪光纪念不留遗憾。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="download-section">
+  <div class="container">
+    <h2>立即下载 闪光倒计时</h2>
+    <p class="tagline">闪光，纪念每一刻</p>
+    <div class="download-buttons">
+      <a href="https://apps.apple.com/cn/app/XXXXXXX" class="download-btn" target="_blank" rel="noopener">
+        <span class="icon">🍎</span>
+        <span class="text">App Store<small>iOS 用户专享</small></span>
+      </a>
+      <a href="https://appgallery.huawei.com/app/XXXXXXX" class="download-btn" target="_blank" rel="noopener">
+        <span class="icon">🤖</span>
+        <span class="text">华为应用市场<small>安卓主流商店</small></span>
+      </a>
+      <a href="https://www.shiguang-countdown.com/download" class="download-btn" target="_blank" rel="noopener">
+        <span class="icon">🌐</span>
+        <span class="text">官网下载页<small>智能分流跳转</small></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">常见问题 FAQ</h2>
+    <p class="section-subtitle">你想知道的都在这里</p>
+    <div class="faq-wrapper">
+      <div class="faq-item">
+        <div class="faq-question">闪光倒计时支持哪些平台？</div>
+        <div class="faq-answer"><p>闪光倒计时支持 iOS 与 Android 双端同步使用。iOS 用户可前往 App Store 下载，Android 用户可在华为应用市场、小米应用商店、OPPO 软件商店等主流安卓应用市场下载，同时也支持官网直接下载安装包。</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">闪光倒计时的数据安全吗？会丢失吗？</div>
+        <div class="faq-answer"><p>闪光倒计时承诺用户数据安全可靠。应用支持云端同步备份功能，登录账号后所有倒计时事件、主题设置、提醒配置会自动同步至云端，换机、重装均不会丢失数据；同时采用端到端加密存储，严格保护用户隐私。</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">闪光倒计时有广告吗？</div>
+        <div class="faq-answer"><p>闪光倒计时承诺纯净无广告体验。我们不会在应用内插入任何 Banner 广告、插屏广告、视频广告或弹窗推广，全力保障用户专注使用、无干扰地记录每一个重要日子。</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">闪光倒计时可以设置多少个倒计时事件？</div>
+        <div class="faq-answer"><p>闪光倒计时支持设置无上限数量的倒计时事件。无论是考试日程、情侣纪念日、宝宝成长节点、职场 Deadline、节日假期还是个人目标，您都可以随心创建并分类管理，多维度标签筛选让查找一目了然。</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">闪光动效可以自定义吗？</div>
+        <div class="faq-answer"><p>闪光倒计时的闪光动效支持深度自定义。应用内置 100+ 精美主题，涵盖渐变背景、字体样式、数字皮肤等维度；倒计时归零瞬间的闪光动画、粒子爆炸效果、屏幕震动力度均可自由调节，打造专属于你的仪式感动效。</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">闪光倒计时适合哪些使用场景？</div>
+        <div class="faq-answer"><p>闪光倒计时适用于全场景使用：学生党可用于中高考、考研、考证等考试冲刺倒计时；情侣可记录恋爱纪念日、求婚、婚礼等浪漫时刻；职场人可追踪项目 Deadline、入职周年、跳槽节点；宝妈宝爸可记录宝宝出生天数、百日宴、周岁生日；此外还支持节日假期、生日祝福、旅行出发等多种场景，内置 20+ 精选场景模板一键套用。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-brand">闪光倒计时</div>
+    <div class="footer-slogan">闪光，纪念每一刻</div>
+    <div class="copyright">© 2026 闪光倒计时团队 版权所有 | contact@shiguang-countdown.com</div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-question').forEach(function(q) {
+  q.addEventListener('click', function() {
+    var item = this.parentElement;
+    var isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
+    if (!isOpen) item.classList.add('open');
+  });
+});
+</script>
+
+</body>
+</html>

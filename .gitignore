@@ -1,0 +1,14 @@
+# 本地简历包装（不外发）
+简历-项目包装.md
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

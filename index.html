@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>闪光倒计时 · AI 搜索增长全链路（GEO / SEO / ASO）｜独立开发项目</title>
+<meta name="description" content="面向豆包等 AI 搜索的生成式引擎优化（GEO）全链路增长项目：52 条四维关键词矩阵、19 篇结构化内容资产、9 平台分发、Schema 结构化数据、97 项验收自动化校验、按周迭代监测闭环。">
+<meta name="author" content="MZCnyhhd">
+<style>
+:root{
+  --bg:#f7f8fa; --surface:#ffffff; --ink:#141b2d; --ink-2:#3d4a63; --ink-3:#6b7891;
+  --line:#e4e8ef; --line-2:#eef1f6;
+  --brand:#b45309; --brand-soft:#fff7ed; --brand-line:#fed7aa;
+  --accent:#0f766e; --accent-soft:#f0fdfa;
+  --violet:#5b21b6; --violet-soft:#f5f3ff;
+  --blue:#1d4ed8; --blue-soft:#eff6ff;
+  --radius:16px; --shadow:0 1px 2px rgba(20,27,45,.04),0 8px 24px rgba(20,27,45,.06);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--bg); color:var(--ink); line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand-mark{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.3px;font-size:15px}
+.dot{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#fbbf24,#f59e0b,#ea580c);display:grid;place-items:center;color:#fff;font-size:13px;box-shadow:0 2px 8px rgba(245,158,11,.4)}
+.nav{display:flex;gap:26px;font-size:14px;color:var(--ink-2);font-weight:500}
+.nav a:hover{color:var(--brand)}
+@media(max-width:820px){.nav{display:none}}
+
+/* ---------- hero ---------- */
+.hero{padding:72px 0 56px;background:linear-gradient(180deg,#fffdf8 0%,#f7f8fa 100%);border-bottom:1px solid var(--line)}
+.tagline{display:inline-flex;align-items:center;gap:8px;background:var(--brand-soft);border:1px solid var(--brand-line);color:var(--brand);
+  font-size:12.5px;font-weight:700;padding:6px 14px;border-radius:999px;letter-spacing:.4px}
+h1{font-size:clamp(30px,5vw,50px);line-height:1.24;font-weight:850;letter-spacing:-.5px;margin:22px 0 18px}
+h1 .hl{background:linear-gradient(180deg,transparent 62%,#fde68a 62%);padding:0 3px}
+.lede{font-size:17.5px;color:var(--ink-2);max-width:760px;margin-bottom:26px}
+.meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:32px}
+.chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:13px;color:var(--ink-2);font-weight:500}
+.chip b{color:var(--ink);font-weight:700}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:10px;font-size:14.5px;font-weight:700;transition:.18s;border:1px solid transparent}
+.btn-primary{background:var(--ink);color:#fff}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(20,27,45,.22)}
+.btn-ghost{background:#fff;border-color:var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink-3)}
+
+/* ---------- metrics ---------- */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:40px}
+.metric{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 18px;box-shadow:var(--shadow)}
+.metric .num{font-size:30px;font-weight:850;letter-spacing:-1px;line-height:1.1;color:var(--ink)}
+.metric .num small{font-size:15px;font-weight:700;color:var(--ink-3);margin-left:2px}
+.metric .lbl{font-size:13px;color:var(--ink-3);margin-top:6px;font-weight:500}
+
+/* ---------- section ---------- */
+section{padding:64px 0;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+.sec-head{margin-bottom:32px}
+.sec-kicker{font-size:12px;font-weight:800;letter-spacing:1.4px;color:var(--brand);text-transform:uppercase}
+h2{font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-.3px;margin:8px 0 10px}
+.sec-desc{color:var(--ink-2);font-size:15.5px;max-width:760px}
+
+/* ---------- cards ---------- */
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+.card h3{font-size:16.5px;font-weight:750;margin-bottom:10px;display:flex;align-items:center;gap:9px}
+.card p{font-size:14.5px;color:var(--ink-2)}
+.ico{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:14px;font-weight:800;flex:none}
+.i-amber{background:var(--brand-soft);color:var(--brand)}
+.i-teal{background:var(--accent-soft);color:var(--accent)}
+.i-violet{background:var(--violet-soft);color:var(--violet)}
+.i-blue{background:var(--blue-soft);color:var(--blue)}
+
+/* ---------- problem ---------- */
+.problem{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ink);border-radius:12px;padding:26px 28px}
+.problem ul{list-style:none;margin-top:14px}
+.problem li{padding:9px 0 9px 26px;position:relative;font-size:15px;color:var(--ink-2);border-bottom:1px dashed var(--line-2)}
+.problem li:last-child{border-bottom:none}
+.problem li::before{content:"→";position:absolute;left:0;color:var(--brand);font-weight:800}
+.stat-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:22px}
+.stat{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.stat .v{font-size:19px;font-weight:800;color:var(--brand)}
+.stat .k{font-size:12.5px;color:var(--ink-3)}
+
+/* ---------- flow ---------- */
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:12px;counter-reset:f}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 18px;position:relative;box-shadow:var(--shadow)}
+.step::before{counter-increment:f;content:"0" counter(f);position:absolute;top:14px;right:16px;font-size:22px;font-weight:850;color:var(--line)}
+.step h4{font-size:15.5px;font-weight:750;margin-bottom:6px}
+.step .tag{display:inline-block;font-size:11.5px;font-weight:700;color:var(--brand);background:var(--brand-soft);border-radius:5px;padding:2px 7px;margin-bottom:9px}
+.step p{font-size:13.5px;color:var(--ink-3);line-height:1.65}
+
+/* ---------- table ---------- */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:640px}
+thead th{background:#fbfcfe;text-align:left;font-weight:750;font-size:12.5px;letter-spacing:.5px;color:var(--ink-3);padding:13px 16px;border-bottom:1px solid var(--line);white-space:nowrap}
+tbody td{padding:13px 16px;border-bottom:1px solid var(--line-2);color:var(--ink-2);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody td:first-child{color:var(--ink);font-weight:650;white-space:nowrap}
+.badge{display:inline-block;font-size:11.5px;font-weight:750;padding:2px 8px;border-radius:6px;white-space:nowrap}
+.b-p0{background:#fef2f2;color:#b91c1c}
+.b-p1{background:#fffbeb;color:#b45309}
+.b-p2{background:#f1f5f9;color:#475569}
+.b-ok{background:#ecfdf5;color:#047857}
+
+/* ---------- matrix ---------- */
+.matrix{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.mcol{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow)}
+.mcol .top{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+.mcol .name{font-size:15.5px;font-weight:750}
+.mcol .cnt{font-size:22px;font-weight:850;color:var(--brand)}
+.mcol p{font-size:13.5px;color:var(--ink-3);margin-bottom:12px}
+.mcol ul{list-style:none;font-size:13px;color:var(--ink-2)}
+.mcol li{padding:5px 0 5px 16px;position:relative;border-top:1px solid var(--line-2)}
+.mcol li:first-child{border-top:none}
+.mcol li::before{content:"";position:absolute;left:2px;top:14px;width:5px;height:5px;border-radius:50%;background:var(--brand-line)}
+
+/* ---------- role ---------- */
+.role{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.ritem{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow)}
+.ritem .n{font-size:12px;font-weight:800;color:var(--brand);letter-spacing:1px;margin-bottom:6px}
+.ritem h4{font-size:16px;font-weight:750;margin-bottom:8px}
+.ritem p{font-size:14px;color:var(--ink-2)}
+
+/* ---------- code ---------- */
+.code{background:#0f172a;color:#e2e8f0;border-radius:14px;padding:20px 22px;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.85}
+.code .c{color:#64748b}
+.code .k{color:#7dd3fc}
+.code .s{color:#86efac}
+.code .y{color:#fcd34d}
+
+/* ---------- note ---------- */
+.note{background:var(--blue-soft);border:1px solid #dbeafe;border-radius:12px;padding:20px 22px;font-size:14.5px;color:#1e3a8a}
+.note b{font-weight:750}
+
+/* ---------- footer ---------- */
+footer{padding:44px 0 56px;color:var(--ink-3);font-size:13.5px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
+footer a{color:var(--brand);font-weight:600}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand-mark"><span class="dot">闪</span>闪光倒计时 · AI 搜索增长项目</div>
+    <nav class="nav">
+      <a href="#problem">问题</a>
+      <a href="#approach">方法</a>
+      <a href="#deliverables">交付</a>
+      <a href="#engineering">工程化</a>
+      <a href="#result">结果</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="tagline">◆ 独立开发 · 0 → 1 全链路</span>
+    <h1>让 AI 主动推荐你的产品：<br><span class="hl">GEO × SEO × ASO</span> 增长体系从 0 到 1</h1>
+    <p class="lede">
+      面对 AI 搜索（豆包等生成式引擎）取代传统搜索的趋势，为自有 App「闪光倒计时」独立搭建了一套可量化、可迭代、可复用的
+      <b>生成式引擎优化增长体系</b>：从实体信息统一、关键词矩阵、结构化内容生产，到多平台分发、Schema 结构化数据、
+      应用商店 ASO、按周监测闭环，共 12 个模块、97 项验收点全部打通。
+    </p>
+
+    <div class="meta-row">
+      <span class="chip">角色：<b>独立开发 / 项目负责人</b></span>
+      <span class="chip">周期：<b>12 周规划 · 持续迭代</b></span>
+      <span class="chip">形态：<b>战略方案 + 内容资产 + SOP + 自动化脚本</b></span>
+      <span class="chip">技术：<b>HTML/CSS · JSON-LD · Python · GitHub Pages</b></span>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://github.com/MZCnyhhd/flash-countdown-geo" target="_blank" rel="noopener">查看完整仓库 →</a>
+      <a class="btn btn-ghost" href="./landing-page/index.html">打开 GEO 落地页（项目产物）</a>
+    </div>
+
+    <div class="metrics">
+      <div class="metric"><div class="num">52<small>条</small></div><div class="lbl">四维关键词矩阵</div></div>
+      <div class="metric"><div class="num">52<small>条</small></div><div class="lbl">AI 推荐监测问句</div></div>
+      <div class="metric"><div class="num">19<small>篇</small></div><div class="lbl">结构化内容资产</div></div>
+      <div class="metric"><div class="num">9<small>个</small></div><div class="lbl">分发平台覆盖</div></div>
+      <div class="metric"><div class="num">2<small>类</small></div><div class="lbl">Schema 结构化数据</div></div>
+      <div class="metric"><div class="num">97<small>项</small></div><div class="lbl">验收点自动化校验</div></div>
+    </div>
+  </div>
+</header>
+
+<section id="problem">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">01 / Problem</div>
+      <h2>要解决的问题</h2>
+      <p class="sec-desc">用户决策入口正在从「搜索框」迁移到「对话框」。品牌在 AI 答案里缺席，意味着在用户心智里出局。</p>
+    </div>
+
+    <div class="problem">
+      <b>核心矛盾：产品存在，但 AI 不知道它存在。</b>
+      <ul>
+        <li>豆包依托字节 Seed 大模型，采用「信息抓取 → 内容评估（EEAT）→ 语义向量匹配呈现」三阶段机制，抓取优先级为「7 天内时效 &gt; 权威来源 &gt; 高互动 &gt; 原创 &gt; 结构化」；</li>
+        <li>多平台实体信息不一致会导致信号矛盾，AI 会降低信任度甚至把品牌直接排除出候选池；</li>
+        <li>纯文本策略效果已下滑，需文本 + 结构化数据 + 多平台信源矩阵并行；</li>
+        <li>缺少监测手段 → 无法证明优化有效 → 无法迭代，增长动作沦为玄学。</li>
+      </ul>
+      <div class="stat-strip">
+        <div class="stat"><div class="v">3.45 亿</div><div class="k">豆包月活用户</div></div>
+        <div class="stat"><div class="v">62.2%</div><div class="k">用户决策前先问 AI</div></div>
+        <div class="stat"><div class="v">96%</div><div class="k">不考虑 AI 未推荐的品牌</div></div>
+        <div class="stat"><div class="v">5.1 倍</div><div class="k">AI 搜索转化率 vs 传统搜索</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="approach">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">02 / Approach</div>
+      <h2>解法：GEO 五步法闭环</h2>
+      <p class="sec-desc">把"被 AI 推荐"这个模糊目标，拆成五个可交付、可验收、可迭代的环节，每一步都有明确产物和量化标准。</p>
+    </div>
+
+    <div class="flow">
+      <div class="step"><span class="tag">看见</span><h4>信源布局</h4><p>四级信源矩阵：权威媒体 / 品牌自有 / 垂直社区 / UGC，统一实体信息规范，消除信号矛盾。</p></div>
+      <div class="step"><span class="tag">采信</span><h4>语义内容</h4><p>结论前置、H2/H3 分层、数据对比表、来源标注、结尾 FAQ，全部按 AI 可解析格式生产。</p></div>
+      <div class="step"><span class="tag">记住</span><h4>多平台分发</h4><p>官网首发 → 24h 字节生态 → 48h 知识社区与长尾全覆盖的黄金窗口节奏。</p></div>
+      <div class="step"><span class="tag">衡量</span><h4>排名监测</h4><p>52 条问句、三固定原则（账号/设备/时段），记录推荐与否、排名、引用来源。</p></div>
+      <div class="step"><span class="tag">巩固</span><h4>迭代优化</h4><p>周报驱动，每周至少 1 条优化动作，12 周沉淀为可复制的长期运营 SOP。</p></div>
+    </div>
+
+    <div style="height:28px"></div>
+
+    <div class="grid g3">
+      <div class="card">
+        <h3><span class="ico i-amber">矩</span>四维关键词矩阵</h3>
+        <p>不是堆搜索量，而是按用户在 AI 面前的<b>真实提问方式</b>反向拆解：疑问类拦截需求、对比类拦截竞品、场景类吃长尾、避坑类承接决策疑虑。每条标注优先级与意图强度，直接映射到内容形式与首发平台。</p>
+      </div>
+      <div class="card">
+        <h3><span class="ico i-teal">构</span>结构化数据 Schema</h3>
+        <p>品牌落地页嵌入 <code>MobileApplication</code> + <code>FAQPage</code> 两类 JSON-LD，把产品参数、评分、6 条常见问答显式喂给抓取端，降低 AI 理解成本、提升引用概率。</p>
+      </div>
+      <div class="card">
+        <h3><span class="ico i-violet">验</span>可验收而非凭感觉</h3>
+        <p>把 PRD 里 10 条功能需求拆成 97 项 C-x.y 验收点，并写 Python 脚本对字符数、关键词覆盖、一致性做程序化校验，杜绝"差不多"交付。</p>
+      </div>
+    </div>
+
+    <div style="height:22px"></div>
+
+    <div class="matrix">
+      <div class="mcol">
+        <div class="top"><span class="name">疑问类</span><span class="cnt">13</span></div>
+        <p>用户直接求推荐</p>
+        <ul><li>时间管理工具推荐</li><li>倒计时 APP 哪个好用</li><li>高考倒计时 APP 推荐</li></ul>
+      </div>
+      <div class="mcol">
+        <div class="top"><span class="name">对比类</span><span class="cnt">5</span></div>
+        <p>拦截竞品流量</p>
+        <ul><li>闪光倒计时 vs Days Matter</li><li>番茄 ToDo 和闪光选哪个</li><li>vs Forest 对比</li></ul>
+      </div>
+      <div class="mcol">
+        <div class="top"><span class="name">场景类</span><span class="cnt">28</span></div>
+        <p>考试 / 情感 / 职场 / 生活</p>
+        <ul><li>考研倒计时无广告</li><li>恋爱纪念日惊喜</li><li>项目上线倒计时看板</li></ul>
+      </div>
+      <div class="mcol">
+        <div class="top"><span class="name">避坑类</span><span class="cnt">6</span></div>
+        <p>承接决策前疑虑</p>
+        <ul><li>选择倒计时 APP 要注意什么</li><li>数据丢失怎么办</li><li>隐私安全的倒计时工具</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="deliverables">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">03 / Deliverables</div>
+      <h2>交付清单：12 个模块</h2>
+      <p class="sec-desc">从战略蓝图到可粘贴发布的内容包，全部为独立产出。点击仓库内文件可查看原文。</p>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>模块</th><th>交付物</th><th>关键产出</th><th>状态</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>01 实体规范</td><td>全平台信源规范手册</td><td>6 项核心信息唯一标准文本，全平台一致率要求 100%</td><td><span class="badge b-ok">完成</span></td></tr>
+          <tr><td>02 关键词</td><td>四维关键词矩阵</td><td>52 条（疑问 13 / 对比 5 / 场景 28 / 避坑 6），含 P0 12 词、P1 17 词、P2 23 词</td><td><span class="badge b-ok">完成</span></td></tr>
+          <tr><td>03 官网 Schema</td><td>品牌落地页 + JSON-LD</td><td>526 行单文件静态页，零依赖；MobileApplication + FAQPage 双标记</td><td><span class="badge b-ok">完成</span></td></tr>
+          <tr><td>04 账号矩阵</td><td>注册操作手册 + 登记表</td><td>6 平台官方号（抖音/头条/知乎/小红书/西瓜/百家号），含审核避坑</td><td><span class="badge b-ok">完成</span></td></tr>
+          <tr><td>05-06 分发</td><td>48h 分发执行手册 + 记录表</td><td>3 篇基石内容 × 每篇 ≥8 平台适配文案，含合规红线与 72h 互动动作</td><td><span class="badge b-ok">完成</span></td></tr>
+          <tr><td>07 ASO</td><td>应用商店优化手册</td><td>App Store 标题/副标题/关键词栏/描述多版本 + Google Play + 截图视频 + 好评引导</td><td><span class="badge b-ok">完成</span></td></tr>
+          <tr><td>08 监测</td><td>豆包问句测试清单</td><td>52 条问句（P0 18 / P1 20 / P2 14），三固定原则 + 9 列记录字段</td><td><span class="badge b-ok">完成</span></td></tr>
+          <tr><td>09 周报</td><td>监测 SOP + 4 期周报模板</td><td>8 步固定流程，环比分析 / 引用来源分布 / 下周动作清单</td><td><span class="badge b-ok">完成</span></td></tr>
+          <tr><td>10 媒体</td><td>科技媒体稿 + 投放执行包</td><td>2 篇评测稿 + 媒体名单 + 预算与投放策略</td><td><span class="badge b-ok">完成</span></td></tr>
+          <tr><td>11 SOP</td><td>长期运营 SOP + 复盘模板</td><td>内容生产规范 / 分发节奏 / 监测模板 / 迭代决策树 4 模块 + 3 月度复盘</td><td><span class="badge b-ok">完成</span></td></tr>
+          <tr><td>12 内容包</td><td>19 项全平台粘贴版内容</td><td>P0 基石 3 篇 + P1 场景 5 篇 + P2 长尾（知乎 4 / 豆瓣 2 / 百科 1 / 小红书 10）</td><td><span class="badge b-ok">完成</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="engineering">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">04 / Engineering</div>
+      <h2>不只是写方案：把标准变成可执行的校验</h2>
+      <p class="sec-desc">内容规范如果只写在文档里，一定会在执行中走样。我用脚本把"AI 友好格式"和"平台字数限制"变成硬性检查。</p>
+    </div>
+
+    <div class="role">
+      <div class="ritem">
+        <div class="n">SCRIPT 01</div>
+        <h4>Schema 与落地页校验</h4>
+        <p>核对 2 类 JSON-LD 的必填字段取值，并逐字校验 6 条 FAQ 的 Question / Answer 与页面可见文案是否完全一致——不一致会让结构化数据直接失效。</p>
+      </div>
+      <div class="ritem">
+        <div class="n">SCRIPT 02</div>
+        <h4>ASO 元数据校验</h4>
+        <p>对标题 3 版、副标题 3 版、关键词栏 2 版做字符数统计与 P0/P1 关键词覆盖率计算，同时校验 iOS 关键词栏 100 字符上限、描述前 200 字含核心词等硬约束。</p>
+      </div>
+      <div class="ritem">
+        <div class="n">SCRIPT 03</div>
+        <h4>内容合规校验</h4>
+        <p>扫描 19 篇内容资产的结论前置、小标题分层、数据对比表、来源标注、FAQ 模块五项 AI 友好格式要求，输出逐篇合规率。</p>
+      </div>
+    </div>
+
+    <div style="height:22px"></div>
+
+    <div class="code">
+<span class="c"># 典型校验逻辑：ASO 关键词栏覆盖率与字符上限</span>
+<span class="k">def</span> check_keywords(version, text, p0_words):
+    chars = <span class="y">len</span>(text)
+    hits  = [w <span class="k">for</span> w <span class="k">in</span> p0_words <span class="k">if</span> w <span class="k">in</span> text]
+    <span class="k">return</span> {
+        <span class="s">"chars"</span>:       chars,
+        <span class="s">"within_limit"</span>: chars &lt;= <span class="y">100</span>,          <span class="c"># iOS 关键词栏硬上限</span>
+        <span class="s">"p0_coverage"</span>:  <span class="y">len</span>(hits) / <span class="y">len</span>(p0_words),
+        <span class="s">"missed"</span>:       [w <span class="k">for</span> w <span class="k">in</span> p0_words <span class="k">if</span> w <span class="k">not in</span> text],
+    }
+    </div>
+
+    <div style="height:22px"></div>
+
+    <div class="grid g2">
+      <div class="card">
+        <h3><span class="ico i-blue">页</span>零依赖静态落地页</h3>
+        <p>526 行单文件 HTML，内联 CSS 与 Emoji 图标，无外部请求、无构建步骤。首屏 ≤1s 加载，天然满足 AI 抓取端对「结构化 + 快」的偏好，可直接挂 GitHub Pages / Vercel / Netlify。</p>
+      </div>
+      <div class="card">
+        <h3><span class="ico i-teal">环</span>监测闭环设计</h3>
+        <p>把"效果好不好"从拍脑袋变成一张表：固定账号 / 设备 / 时段，52 条问句逐条记录推荐与否、TOP 排名、引用来源平台、截图归档，每周出环比周报并反推下轮优化动作。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="result">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">05 / Result</div>
+      <h2>成果与指标</h2>
+      <p class="sec-desc">区分两类指标：<b>交付类</b>（已确定性完成）与<b>效果类</b>（随运营推进持续追踪）。</p>
+    </div>
+
+    <div class="grid g2">
+      <div class="card">
+        <h3><span class="ico i-amber">已</span>交付类指标（已达成）</h3>
+        <p style="margin-bottom:12px">以下均为可核查的确定性产出：</p>
+        <div class="tablewrap" style="box-shadow:none">
+          <table style="min-width:0">
+            <tbody>
+              <tr><td>关键词矩阵</td><td>52 条（目标 ≥50）· 达成 104%</td></tr>
+              <tr><td>内容资产</td><td>19 篇（目标 ≥15）· 达成 127%</td></tr>
+              <tr><td>分发覆盖</td><td>9 个平台 · 单篇最高 7 平台适配</td></tr>
+              <tr><td>Schema 标记</td><td>2 类 · FAQ 6 条（要求 ≥5）</td></tr>
+              <tr><td>验收点</td><td>97 项 · 全部程序化可校验</td></tr>
+              <tr><td>SOP 沉淀</td><td>12 份手册 + 4 期周报模板 + 3 套月度复盘</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="ico i-violet">进</span>效果类指标（按周追踪）</h3>
+        <p style="margin-bottom:12px">目标值已在方案中量化定义，每周一按同一口径实测并回填：</p>
+        <div class="tablewrap" style="box-shadow:none">
+          <table style="min-width:0">
+            <tbody>
+              <tr><td>核心问句推荐率</td><td>目标 ≥60%（第 3 个月）</td></tr>
+              <tr><td>TOP3 占比</td><td>目标 ≥40%</td></tr>
+              <tr><td>关键词覆盖</td><td>目标 60+，P0 覆盖度 100%</td></tr>
+              <tr><td>信源数量</td><td>目标 ≥30 个</td></tr>
+              <tr><td>结构化合规率</td><td>目标 ≥95%</td></tr>
+              <tr><td>监测存档</td><td>≥12 周，数据可追溯到具体动作</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:22px"></div>
+    <div class="note">
+      <b>关于数据口径：</b>本页「交付类指标」为项目仓库内可核查的实际产出数量；「效果类指标」为方案中设定的目标值，
+      需随多平台内容实际发布后按周实测回填，当前以监测 SOP 与周报模板保证可追踪。行业共识 GEO 认知建设周期为 3–6 个月。
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>闪光倒计时 · AI 搜索增长全链路项目 · 独立开发</div>
+    <div><a href="https://github.com/MZCnyhhd/flash-countdown-geo" target="_blank" rel="noopener">GitHub 仓库</a> · <a href="./landing-page/index.html">GEO 落地页</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
