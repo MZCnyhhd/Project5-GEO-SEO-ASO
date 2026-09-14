@@ -3,8 +3,8 @@
 > 面向豆包等生成式引擎的 **GEO（Generative Engine Optimization）** 增长体系，从 0 到 1 独立搭建。
 > 12 个模块、52 条关键词、19 篇结构化内容、9 个分发平台、97 项验收点。
 
-🌐 **在线项目页**：<https://mzcnyhhd.github.io/flash-countdown-geo/>
-📄 **GEO 落地页**（项目产物）：<https://mzcnyhhd.github.io/flash-countdown-geo/landing-page/>
+🌐 **在线项目页**：<https://mzcnyhhd.github.io/Project5-GEO-SEO-ASO/>
+📄 **GEO 落地页**（项目产物）：<https://mzcnyhhd.github.io/Project5-GEO-SEO-ASO/landing-page/>
 
 ---
 
