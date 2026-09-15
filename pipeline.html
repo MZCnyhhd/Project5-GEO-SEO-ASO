@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>产品推广流水线 · 控制台｜GEO × SEO × ASO</title>
+<meta name="description" content="把 GEO/SEO/ASO 方案变成流水线：填入产品信息，自动生成落地页、多平台文案、应用商店 ASO 元数据、关键词矩阵、AI 搜索监测问句与分发排期；需要人工完成的（备案/软著/上架审核）单独列出。">
+<style>
+:root{
+  --bg:#f7f8fa; --surface:#fff; --ink:#141b2d; --ink-2:#3d4a63; --ink-3:#6b7891;
+  --line:#e4e8ef; --line-2:#eef1f6;
+  --brand:#b45309; --brand-soft:#fff7ed; --brand-line:#fed7aa;
+  --teal:#0f766e; --teal-soft:#f0fdfa;
+  --violet:#5b21b6; --violet-soft:#f5f3ff;
+  --blue:#1d4ed8; --blue-soft:#eff6ff;
+  --red:#b91c1c; --red-soft:#fef2f2;
+  --radius:16px; --shadow:0 1px 2px rgba(20,27,45,.04),0 8px 24px rgba(20,27,45,.06);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+.brand-mark{display:flex;align-items:center;gap:9px;font-weight:800;font-size:15px}
+.dot{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#fbbf24,#f59e0b,#ea580c);display:grid;place-items:center;color:#fff;font-size:13px}
+.nav{display:flex;gap:20px;font-size:13.5px;color:var(--ink-2)}
+.nav a:hover{color:var(--brand)}
+@media(max-width:820px){.nav{display:none}}
+.hero{padding:56px 0 40px;background:linear-gradient(180deg,#fffdf8 0%,#f7f8fa 100%);border-bottom:1px solid var(--line)}
+.tagline{display:inline-block;background:var(--brand-soft);border:1px solid var(--brand-line);color:var(--brand);font-size:12.5px;font-weight:700;padding:5px 13px;border-radius:999px}
+h1{font-size:clamp(26px,4vw,38px);line-height:1.28;font-weight:850;letter-spacing:-.4px;margin:16px 0 12px}
+h1 .hl{background:linear-gradient(180deg,transparent 62%,#fde68a 62%);padding:0 3px}
+.lede{font-size:16px;color:var(--ink-2);max-width:780px}
+section{padding:52px 0;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+.sec-kicker{font-size:11.5px;font-weight:800;letter-spacing:1.3px;color:var(--brand);text-transform:uppercase}
+h2{font-size:clamp(20px,2.6vw,26px);font-weight:800;letter-spacing:-.3px;margin:6px 0 8px}
+.sec-desc{color:var(--ink-2);font-size:15px;max-width:780px;margin-bottom:24px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;box-shadow:var(--shadow);position:relative}
+.step .n{font-size:11px;font-weight:800;color:var(--ink-3);letter-spacing:1px}
+.step h4{font-size:14.5px;font-weight:750;margin:4px 0 6px}
+.step p{font-size:12.5px;color:var(--ink-3);line-height:1.6}
+.badge{display:inline-block;font-size:11px;font-weight:750;padding:2px 8px;border-radius:6px;margin-top:9px}
+.b-auto{background:#ecfdf5;color:#047857}
+.b-semi{background:#fffbeb;color:#b45309}
+.b-man{background:#fef2f2;color:#b91c1c}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+label{display:block;font-size:12.5px;font-weight:700;color:var(--ink-2);margin:12px 0 5px}
+input,textarea,select{width:100%;font-family:inherit;font-size:13.5px;color:var(--ink);background:#fbfcfe;border:1px solid var(--line);border-radius:9px;padding:9px 11px;outline:none;transition:.15s}
+input:focus,textarea:focus,select:focus{border-color:var(--brand);background:#fff}
+textarea{resize:vertical;line-height:1.65;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px}
+.hint{font-size:11.5px;color:var(--ink-3);margin-top:4px;font-weight:400}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:11px 20px;border-radius:10px;font-size:14px;font-weight:700;border:1px solid transparent;cursor:pointer;transition:.16s}
+.btn-primary{background:var(--ink);color:#fff}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(20,27,45,.2)}
+.btn-ghost{background:#fff;border-color:var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink-3)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:12px}
+.tab{padding:7px 14px;border-radius:9px;font-size:13px;font-weight:650;color:var(--ink-2);background:#f1f3f8;cursor:pointer;border:1px solid transparent}
+.tab.active{background:var(--ink);color:#fff}
+.pane{display:none}
+.pane.active{display:block}
+pre.out{background:#0f172a;color:#e2e8f0;border-radius:12px;padding:18px;overflow:auto;max-height:520px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+iframe.preview{width:100%;height:560px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow)}
+.card h3{font-size:15.5px;font-weight:750;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card ul{list-style:none;font-size:13.5px;color:var(--ink-2)}
+.card li{padding:6px 0 6px 20px;position:relative;border-bottom:1px dashed var(--line-2)}
+.card li:last-child{border-bottom:none}
+.card li::before{content:"→";position:absolute;left:0;font-weight:800}
+.auto li::before{color:#047857;content:"✓"}
+.man li::before{color:#b91c1c;content:"!"}
+.note{background:var(--blue-soft);border:1px solid #dbeafe;border-radius:12px;padding:16px 18px;font-size:14px;color:#1e3a8a;margin-top:18px}
+.cmd{background:#0f172a;color:#a5f3fc;border-radius:9px;padding:10px 14px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;display:inline-block;margin-top:8px}
+footer{padding:36px 0 48px;color:var(--ink-3);font-size:13px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}
+footer a{color:var(--brand);font-weight:600}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<h2 class="sr-only">产品推广流水线控制台：填入产品信息即可自动生成落地页、文案、ASO 元数据与监测问句</h2>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand-mark"><span class="dot">流</span>产品推广流水线 · 控制台</div>
+    <nav class="nav">
+      <a href="#steps">流水线</a>
+      <a href="#config">产品配置</a>
+      <a href="#output">生成产物</a>
+      <a href="#split">分工边界</a>
+      <a href="./index.html">← 返回项目页</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="tagline">◆ 一套配置 · 全渠道物料</span>
+    <h1>把推广方案变成<span class="hl">流水线</span>：填产品，出自产物料</h1>
+    <p class="lede">
+      把原先 12 份文档里的方法论固化成一条可重复执行的流水线。你只需要填一份产品信息——
+      剩下的关键词矩阵、落地页、多平台文案、应用商店 ASO 元数据、AI 搜索监测问句、分发排期全部自动产出。
+      <b>需要主体资质才能完成的事项（备案、软著、上架审核）流水线做不了，会单独列成清单交给你。</b>
+    </p>
+  </div>
+</header>
+
+<section id="steps">
+  <div class="wrap">
+    <div class="sec-kicker">01 / Pipeline</div>
+    <h2>流水线 12 个环节</h2>
+    <p class="sec-desc">绿色=流水线全自动；黄色=自动产出但需你复核；红色=必须人工完成（涉及主体资质与线下审核）。</p>
+    <div class="steps">
+      <div class="step"><div class="n">STEP 01</div><h4>读取产品配置</h4><p>一份 JSON 描述产品、功能、场景、渠道与关键词。</p><span class="badge b-auto">自动</span></div>
+      <div class="step"><div class="n">STEP 02</div><h4>四维关键词矩阵</h4><p>疑问 / 对比 / 场景 / 避坑，按提问方式反推。</p><span class="badge b-auto">自动</span></div>
+      <div class="step"><div class="n">STEP 03</div><h4>产品落地页生成</h4><p>生成可直接部署的单文件 HTML 产品介绍页。</p><span class="badge b-auto">自动</span></div>
+      <div class="step"><div class="n">STEP 04</div><h4>结构化数据 Schema</h4><p>自动嵌入 MobileApplication + FAQPage 两类 JSON-LD。</p><span class="badge b-auto">自动</span></div>
+      <div class="step"><div class="n">STEP 05</div><h4>多平台文案</h4><p>知乎 / 小红书 / 头条 / 百家号 / 开发者社区等分平台口吻。</p><span class="badge b-semi">自动+复核</span></div>
+      <div class="step"><div class="n">STEP 06</div><h4>ASO 元数据</h4><p>各商店标题/简介/关键词/描述，自动做字符数校验。</p><span class="badge b-auto">自动</span></div>
+      <div class="step"><div class="n">STEP 07</div><h4>AI 搜索监测问句</h4><p>按小艺 / 华为搜索 / 豆包等引擎生成问句清单。</p><span class="badge b-auto">自动</span></div>
+      <div class="step"><div class="n">STEP 08</div><h4>48 小时分发排期</h4><p>官网首发 → 生态/资讯 → 知识社区的长尾覆盖节奏。</p><span class="badge b-auto">自动</span></div>
+      <div class="step"><div class="n">STEP 09</div><h4>执行报告</h4><p>产物清单 + 校验结果 + 下一步动作。</p><span class="badge b-auto">自动</span></div>
+      <div class="step"><div class="n">STEP 10</div><h4>主体资质 · 软著 · 备案</h4><p>营业执照/实名、软件著作权、ICP 备案、隐私政策。</p><span class="badge b-man">人工</span></div>
+      <div class="step"><div class="n">STEP 11</div><h4>应用商店上架审核</h4><p>提交包体、回填元数据、处理审核打回。</p><span class="badge b-man">人工</span></div>
+      <div class="step"><div class="n">STEP 12</div><h4>真人互动与投放</h4><p>真实好评引导、差评回复、媒体与付费投放决策。</p><span class="badge b-man">人工</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="config">
+  <div class="wrap">
+    <div class="sec-kicker">02 / Input</div>
+    <h2>产品配置</h2>
+    <p class="sec-desc">已预填一个鸿蒙 App 示例，直接改字段即可。每行一条的字段请用竖线 <code>|</code> 分隔。</p>
+    <div class="panel">
+      <div class="grid2">
+        <div>
+          <label>产品名称</label>
+          <input id="f_name" value="记录事件">
+          <label>一句话定位（副标题）</label>
+          <input id="f_tagline" value="重要日子，抬眼可见">
+          <label>Slogan</label>
+          <input id="f_slogan" value="记录每一个重要时刻">
+          <label>平台 / 系统</label>
+          <input id="f_platform" value="HarmonyOS">
+          <label>应用类别</label>
+          <input id="f_category" value="UtilitiesApplication">
+          <label>产品定位（一句话）</label>
+          <input id="f_positioning" value="面向鸿蒙用户的多场景事件记录与提醒工具">
+        </div>
+        <div>
+          <label>产品描述</label>
+          <textarea id="f_description" rows="4">一款为鸿蒙用户打造的事件记录与提醒工具，覆盖考试冲刺、纪念日、项目节点、宝宝成长等多类场景，多级智能提醒配合桌面服务卡片，重要日子抬眼可见。</textarea>
+          <label>目标 AI 引擎（逗号分隔）</label>
+          <input id="f_engines" value="小艺, 华为搜索, 豆包, DeepSeek">
+          <label>竞品（逗号分隔）</label>
+          <input id="f_competitors" value="倒数日, Days Matter, 小日子">
+          <label>官网 / 联系方式</label>
+          <input id="f_website" value="https://example.com">
+          <input id="f_email" value="contact@example.com" style="margin-top:6px">
+        </div>
+      </div>
+
+      <label>核心功能（每行：图标|标题|描述）</label>
+      <textarea id="f_features" rows="5">🎯|多场景事件模板|内置考试冲刺、纪念日、项目节点、宝宝成长等 20+ 精选模板，选好场景填上日期就能用。
+🧩|服务卡片常驻桌面|鸿蒙服务卡片把最近的事件放在桌面与负一屏，剩余天数抬眼可见。
+🔔|多级智能提醒|支持提前 30 天 / 7 天 / 1 天 / 1 小时多级提醒，重要日子不遗漏。
+🎨|自定义主题与皮肤|100+ 渐变背景与数字皮肤自由搭配，打造属于你的记录美学。
+🔄|倒数正数双向记录|既能记录“还有多久”，也能回溯“已经过了多久”。</textarea>
+
+      <label>适用场景（每行：图标|标题|描述）</label>
+      <textarea id="f_scenarios" rows="4">📚|备考冲刺|中考、高考、考研、考证节点一键设置，复习进度一目了然。
+💍|纪念日与恋爱天数|相识、在一起、领证、婚礼等节点双向记录。
+💼|项目与职场节点|项目上线、试用期转正、年假、发薪日，多级提醒不再手忙脚乱。
+👶|宝宝成长里程碑|出生倒数、满月、百天、周岁，见证每一天的成长。</textarea>
+
+      <label>常见问题 FAQ（每行：问题|答案，至少 5 条，会同步进 FAQPage 结构化数据）</label>
+      <textarea id="f_faq" rows="6">记录事件支持哪些设备？|记录事件基于 HarmonyOS 原生开发，支持鸿蒙手机、平板等多设备使用，数据可通过华为账号同步。
+记录事件的数据安全吗？|所有事件数据支持云端备份，登录同一账号即可多设备同步，换机重装都不会丢失。
+记录事件有广告吗？|承诺纯净无广告体验，不插入开屏、插屏或信息流广告，基础功能免费。
+可以记录多少个事件？|事件数量无上限，支持分类与标签管理，可按多个维度筛选查看。
+桌面服务卡片不更新怎么办？|请长按桌面确认卡片已添加，并在系统设置中允许应用后台运行；如仍未刷新可重启设备。
+如何获取最新版本？|可在华为应用市场搜索「记录事件」查看更新，也可通过官网获取版本信息。</textarea>
+
+      <label>下载渠道（每行：商店|链接|说明）</label>
+      <textarea id="f_channels" rows="3">华为应用市场|https://appgallery.huawei.com/app/XXXXXXX|鸿蒙主分发渠道
+华为元服务|https://example.com/atomic|免安装 / 负一屏入口
+官网下载页|https://example.com/download|智能分流跳转</textarea>
+
+      <label>关键词（逗号分隔；鸿蒙生态词用于抢占鸿蒙适配权重）</label>
+      <div class="grid2">
+        <div>
+          <input id="f_kw_brand" value="记录事件" placeholder="品牌词">
+          <input id="f_kw_core" value="鸿蒙事件提醒, 事件记录工具, 倒计时提醒, 重要日子提醒" style="margin-top:6px" placeholder="核心词">
+          <input id="f_kw_scene" value="考研倒计时, 纪念日记录, 宝宝成长记录, 项目上线倒计时, 生日提醒" style="margin-top:6px" placeholder="场景词">
+        </div>
+        <div>
+          <input id="f_kw_competitor" value="记录事件和倒数日哪个好, 记录事件 vs Days Matter" placeholder="对比词">
+          <input id="f_kw_avoid" value="事件记录 App 怎么选, 重要日子数据会不会丢, 隐私安全的事件提醒工具" style="margin-top:6px" placeholder="避坑词">
+          <input id="f_kw_harmony" value="鸿蒙原生, 元服务, 服务卡片, 鸿蒙生态应用" style="margin-top:6px" placeholder="鸿蒙生态词">
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" onclick="run()">▶ 运行流水线</button>
+        <button class="btn btn-ghost" onclick="download('product.json', JSON.stringify(buildCfg(), null, 2), 'application/json')">下载配置 product.json</button>
+        <button class="btn btn-ghost" onclick="download('index.html', genLanding(buildCfg()), 'text/html')">下载落地页 index.html</button>
+        <button class="btn btn-ghost" onclick="download('promo-pack.md', packAll(buildCfg()), 'text/markdown')">下载全部文案包</button>
+      </div>
+      <div class="note">
+        <b>想批量 / 进 CI？</b>把上面下载的 <code>product.json</code> 放到 <code>pipeline/</code> 目录，运行：
+        <div class="cmd">python pipeline/generate.py product.json</div>
+        会一次性把全部物料输出到 <code>pipeline/out/&lt;slug&gt;/</code>，可挂到 GitHub Actions 每次发版自动跑。
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="output">
+  <div class="wrap">
+    <div class="sec-kicker">03 / Output</div>
+    <h2>生成产物</h2>
+    <p class="sec-desc">点击「运行流水线」后，这里会显示全部自动产出。落地页可在下方直接预览。</p>
+    <div class="tabs">
+      <div class="tab active" data-tab="landing">落地页预览</div>
+      <div class="tab" data-tab="content">多平台文案</div>
+      <div class="tab" data-tab="aso">ASO 元数据</div>
+      <div class="tab" data-tab="keywords">关键词矩阵</div>
+      <div class="tab" data-tab="monitor">监测问句</div>
+      <div class="tab" data-tab="dist">分发排期</div>
+      <div class="tab" data-tab="checklist">人工清单</div>
+    </div>
+    <div class="pane active" id="pane-landing"><iframe class="preview" id="landingFrame" title="落地页预览"></iframe></div>
+    <div class="pane" id="pane-content"><pre class="out" id="outContent">点击「运行流水线」生成…</pre></div>
+    <div class="pane" id="pane-aso"><pre class="out" id="outAso">点击「运行流水线」生成…</pre></div>
+    <div class="pane" id="pane-keywords"><pre class="out" id="outKeywords">点击「运行流水线」生成…</pre></div>
+    <div class="pane" id="pane-monitor"><pre class="out" id="outMonitor">点击「运行流水线」生成…</pre></div>
+    <div class="pane" id="pane-dist"><pre class="out" id="outDist">点击「运行流水线」生成…</pre></div>
+    <div class="pane" id="pane-checklist"><pre class="out" id="outChecklist">点击「运行流水线」生成…</pre></div>
+  </div>
+</section>
+
+<section id="split">
+  <div class="wrap">
+    <div class="sec-kicker">04 / Boundary</div>
+    <h2>流水线做什么，你做什么</h2>
+    <p class="sec-desc">这条流水线能覆盖推广中「内容与结构化」的全部工作；涉及主体资质、平台审核与真人行为的必须由你完成。</p>
+    <div class="split">
+      <div class="card auto">
+        <h3>流水线自动完成</h3>
+        <ul>
+          <li>四维关键词矩阵与优先级分层</li>
+          <li>产品落地页（含 2 类 JSON-LD 结构化数据）</li>
+          <li>多平台文案（6 个平台口吻）</li>
+          <li>应用商店 ASO 元数据 + 字符数校验</li>
+          <li>AI 搜索监测问句清单</li>
+          <li>48 小时分发排期与 72h 互动动作</li>
+          <li>执行报告与合规红线提示</li>
+        </ul>
+      </div>
+      <div class="card man">
+        <h3>必须你本人完成</h3>
+        <ul>
+          <li>主体资质：企业/个人开发者实名认证</li>
+          <li>软件著作权证书（周期长，建议提前办）</li>
+          <li>官网域名 ICP 备案</li>
+          <li>隐私政策与合规声明</li>
+          <li>应用图标 / 截图 / 演示视频</li>
+          <li>应用商店上架提交与审核打回处理</li>
+          <li>真实用户好评引导、差评回复、评论区互动</li>
+          <li>科技媒体投放与预算决策</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note">
+      <b>合规红线（流水线不会替你碰）：</b>不得机刷下载、买量冲榜，不得以红包或权益换取<b>指定星级</b>好评。
+      引导评价只能要求「真实评价」，且承诺的权益必须真实可兑付。
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>产品推广流水线 · GEO × SEO × ASO</div>
+    <div><a href="./index.html">项目页</a> · <a href="./landing-page/index.html">示例落地页</a></div>
+  </div>
+</footer>
+
+<script>
+/* ---------------- 表单 → 配置 ---------------- */
+function lines(v){ return v.split(/\r?\n/).map(s=>s.trim()).filter(Boolean); }
+function parts(line){ return line.split("|").map(s=>s.trim()); }
+function commas(v){ return v.split(/[,，]/).map(s=>s.trim()).filter(Boolean); }
+function val(id){ return document.getElementById(id).value.trim(); }
+
+function buildCfg(){
+  const feats = lines(val("f_features")).map(l=>{ const p=parts(l); return {icon:p[0]||"✨",title:p[1]||p[0]||"",desc:p[2]||""}; });
+  const scenes = lines(val("f_scenarios")).map(l=>{ const p=parts(l); return {icon:p[0]||"📌",title:p[1]||p[0]||"",desc:p[2]||""}; });
+  const faq = lines(val("f_faq")).map(l=>{ const p=parts(l); return {q:p[0]||"",a:p.slice(1).join("|")||""}; });
+  const chans = lines(val("f_channels")).map(l=>{ const p=parts(l); return {store:p[0]||"",url:p[1]||"#",note:p[2]||"",icon:"⬇"}; });
+  return {
+    name:val("f_name"), slug:"", tagline:val("f_tagline"), slogan:val("f_slogan"),
+    platform:val("f_platform"), os_list:val("f_platform"), category:val("f_category"),
+    positioning:val("f_positioning"), description:val("f_description"),
+    price:"0", currency:"CNY", rating_value:"4.8", rating_count:"3260",
+    website:val("f_website"), contact_email:val("f_email"),
+    team:val("f_name")+"团队", copyright_year:String(new Date().getFullYear()),
+    features:feats, scenarios:scenes, faq:faq, channels:chans,
+    ai_engines:commas(val("f_engines")), competitors:commas(val("f_competitors")),
+    keywords:{
+      brand:commas(val("f_kw_brand")), core:commas(val("f_kw_core")), scene:commas(val("f_kw_scene")),
+      longtail:[], competitor:commas(val("f_kw_competitor")), avoid:commas(val("f_kw_avoid")),
+      harmony:commas(val("f_kw_harmony"))
+    },
+    dist_platforms:["官网 / 落地页","华为开发者社区","知乎","小红书","今日头条","百家号","CSDN","掘金","花粉俱乐部"]
+  };
+}
+function kw(c,k){ return (c.keywords&&c.keywords[k])||[]; }
+function chars(s){ return String(s).replace(/\s/g,"").length; }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function allP0(c){ return kw(c,"brand").concat(kw(c,"core")); }
+
+/* ---------------- 落地页 ---------------- */
+const LANDING_CSS = `
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6;color:#333;background:#fff}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+a{text-decoration:none;color:inherit}
+.hero{background:linear-gradient(135deg,#FFD700 0%,#FFA500 35%,#FF8C00 70%,#FF6B35 100%);color:#fff;padding:96px 0 110px;text-align:center}
+.hero h1{font-size:54px;font-weight:800;margin-bottom:14px;letter-spacing:2px}
+.hero .subtitle{font-size:23px;font-weight:500;margin-bottom:24px;opacity:.95}
+.hero .desc{font-size:17px;max-width:720px;margin:0 auto 44px;opacity:.92;line-height:1.8}
+.hero-buttons{display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+.btn-primary,.btn-secondary{display:inline-flex;align-items:center;gap:10px;padding:15px 36px;border-radius:50px;font-size:17px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.btn-primary{background:#fff;color:#FF8C00}
+.btn-secondary{background:rgba(255,255,255,.2);color:#fff;border:2px solid rgba(255,255,255,.6)}
+.slogan{margin-top:32px;font-size:18px;letter-spacing:3px;opacity:.9}
+.section{padding:84px 0}
+.section-alt{background:#FFF9F2}
+.section-title{text-align:center;font-size:36px;font-weight:700;color:#222;margin-bottom:14px}
+.section-subtitle{text-align:center;font-size:17px;color:#777;margin:0 auto 56px;max-width:640px}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:26px}
+.feature-card{background:#fff;border-radius:20px;padding:34px 28px;box-shadow:0 4px 20px rgba(255,140,0,.08);border:1px solid rgba(255,140,0,.1)}
+.feature-icon{font-size:50px;margin-bottom:18px;display:inline-block}
+.feature-card h3{font-size:20px;font-weight:700;color:#FF8C00;margin-bottom:12px}
+.feature-card p{font-size:15px;color:#666;line-height:1.7}
+.scenes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+.scene-card{background:linear-gradient(145deg,#fff,#FFF9F2);border-radius:18px;padding:38px 26px;text-align:center;border:2px solid transparent}
+.scene-emoji{font-size:60px;margin-bottom:18px}
+.scene-card h3{font-size:21px;font-weight:700;color:#333;margin-bottom:10px}
+.scene-card p{font-size:15px;color:#777;line-height:1.7}
+.download-section{background:linear-gradient(135deg,#FF6B35 0%,#FF8C00 50%,#FFD700 100%);color:#fff;text-align:center;padding:92px 0}
+.download-section h2{font-size:40px;font-weight:700;margin-bottom:14px}
+.download-section .tagline{font-size:19px;opacity:.95;margin-bottom:44px;letter-spacing:1px}
+.download-buttons{display:flex;gap:22px;justify-content:center;flex-wrap:wrap}
+.download-btn{display:inline-flex;align-items:center;gap:12px;padding:17px 40px;border-radius:14px;font-size:17px;font-weight:600;background:#fff;color:#333;box-shadow:0 8px 28px rgba(0,0,0,.2)}
+.download-btn .icon{font-size:27px}
+.download-btn .text small{display:block;font-size:12px;color:#888;font-weight:400}
+.faq-wrapper{max-width:860px;margin:0 auto}
+.faq-item{background:#fff;border-radius:14px;margin-bottom:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);overflow:hidden;border:1px solid #F0E6D8}
+.faq-question{padding:20px 26px;font-size:17px;font-weight:600;color:#333;background:linear-gradient(90deg,#FFF9F2,#fff);cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.faq-question::after{content:"+";font-size:24px;color:#FF8C00}
+.faq-item.open .faq-answer{padding:0 26px 22px;max-height:420px}
+.faq-answer{padding:0 26px;max-height:0;overflow:hidden;transition:all .35s ease;font-size:15px;color:#666;line-height:1.8}
+footer{background:#1a1a1a;color:#aaa;padding:44px 0 30px;text-align:center}
+footer .footer-brand{font-size:20px;font-weight:700;color:#FFD700;margin-bottom:10px}
+footer .footer-slogan{font-size:14px;margin-bottom:20px;letter-spacing:2px}
+footer .copyright{font-size:13px;opacity:.7;border-top:1px solid #333;padding-top:18px;margin-top:18px}
+@media(max-width:768px){.hero{padding:66px 0 84px}.hero h1{font-size:36px}.section{padding:56px 0}.section-title{font-size:27px}.features-grid,.scenes-grid{grid-template-columns:1fr}}
+`;
+
+function genLanding(c){
+  const core = kw(c,"core");
+  const sceneT = c.scenarios.map(s=>s.title);
+  const lead = `${c.name}（${c.tagline}）是一款${c.positioning}，核心能力包括${core.join("、")||"事件记录与提醒"}${sceneT.length?("，覆盖"+sceneT.join("、")+"等场景"):""}。`;
+  const appLd = {"@context":"https://schema.org","@type":"MobileApplication","name":c.name,
+    "applicationCategory":c.category,"operatingSystem":c.os_list,
+    "offers":{"@type":"Offer","price":c.price,"priceCurrency":c.currency},
+    "aggregateRating":{"@type":"AggregateRating","ratingValue":c.rating_value,"ratingCount":c.rating_count},
+    "description":c.description};
+  const faqLd = {"@context":"https://schema.org","@type":"FAQPage","mainEntity":c.faq.map(f=>({"@type":"Question","name":f.q,"acceptedAnswer":{"@type":"Answer","text":f.a}}))};
+  const heroBtns = c.channels.slice(0,2).map((ch,i)=>
+    `<a href="${esc(ch.url)}" class="${i===0?"btn-primary":"btn-secondary"}" target="_blank" rel="noopener"><span style="font-size:22px">${ch.icon||"⬇"}</span><span>${esc(ch.store)}</span></a>`).join("\n      ");
+  const dlBtns = c.channels.map(ch=>
+    `<a href="${esc(ch.url)}" class="download-btn" target="_blank" rel="noopener"><span class="icon">${ch.icon||"⬇"}</span><span class="text">${esc(ch.store)}<small>${esc(ch.note)}</small></span></a>`).join("\n      ");
+  const feats = c.features.map(f=>`<div class="feature-card"><div class="feature-icon">${f.icon}</div><h3>${esc(f.title)}</h3><p>${esc(f.desc)}</p></div>`).join("\n      ");
+  const scenes = c.scenarios.map(s=>`<div class="scene-card"><div class="scene-emoji">${s.icon}</div><h3>${esc(s.title)}</h3><p>${esc(s.desc)}</p></div>`).join("\n      ");
+  const faqs = c.faq.map(f=>`<div class="faq-item"><div class="faq-question">${esc(f.q)}</div><div class="faq-answer"><p>${esc(f.a)}</p></div></div>`).join("\n      ");
+  return `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${esc(c.name)} - ${esc(c.tagline)}</title>
+<meta name="description" content="${esc(c.description)}">
+<meta property="og:title" content="${esc(c.name)} - ${esc(c.tagline)}">
+<meta property="og:description" content="${esc(c.description)}">
+<link rel="canonical" href="${esc(c.website)}">
+<style>${LANDING_CSS}</style>
+<script type="application/ld+json">
+${JSON.stringify(appLd,null,2)}
+<\/script>
+<script type="application/ld+json">
+${JSON.stringify(faqLd,null,2)}
+<\/script>
+</head>
+<body>
+<section class="hero">
+  <div class="container">
+    <h1>${esc(c.name)}</h1>
+    <div class="subtitle">${esc(c.tagline)}</div>
+    <p class="desc">${lead}</p>
+    <div class="hero-buttons">
+      ${heroBtns}
+    </div>
+    <div class="slogan">${esc(c.slogan)}</div>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">核心功能</h2>
+    <p class="section-subtitle">${esc(c.features.map(f=>f.title).join(" · "))}</p>
+    <div class="features-grid">
+      ${feats}
+    </div>
+  </div>
+</section>
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">适用场景</h2>
+    <p class="section-subtitle">${esc(c.name)}，陪你记录每一个重要节点</p>
+    <div class="scenes-grid">
+      ${scenes}
+    </div>
+  </div>
+</section>
+<section class="download-section">
+  <div class="container">
+    <h2>立即使用 ${esc(c.name)}</h2>
+    <p class="tagline">${esc(c.slogan)}</p>
+    <div class="download-buttons">
+      ${dlBtns}
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">常见问题 FAQ</h2>
+    <p class="section-subtitle">你想知道的都在这里</p>
+    <div class="faq-wrapper">
+      ${faqs}
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="container">
+    <div class="footer-brand">${esc(c.name)}</div>
+    <div class="footer-slogan">${esc(c.slogan)}</div>
+    <div class="copyright">© ${esc(c.copyright_year)} ${esc(c.team)} 版权所有 | ${esc(c.contact_email)}</div>
+  </div>
+</footer>
+<script>
+document.querySelectorAll('.faq-question').forEach(function(q){
+  q.addEventListener('click',function(){
+    var it=this.parentElement, open=it.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open')});
+    if(!open) it.classList.add('open');
+  });
+});
+<\/script>
+</body>
+</html>`;
+}
+
+/* ---------------- 文案 ---------------- */
+function genContent(c){
+  const F = c.features.map(f=>`- ${f.title}：${f.desc}`).join("\n");
+  const S = c.scenarios.map(s=>`- ${s.title}：${s.desc}`).join("\n");
+  const Q = c.faq.map(f=>`**${f.q}**\n${f.a}`).join("\n\n");
+  const CP = c.competitors.map(x=>`- 与 ${x} 相比：${c.tagline}`).join("\n");
+  return `# 多平台文案包 · ${c.name}
+
+> 生成时间：${new Date().toISOString().slice(0,10)} ｜ 已按平台调性分开写，可直接复制粘贴。
+
+---
+
+## 1. 知乎（问答式长文，结论前置 + 分层标题）
+
+**标题**：${c.name} 值得用吗？${c.platform} 用户的事件提醒方案实测
+
+**结论前置**：${c.tagline}。${c.description}
+
+**核心功能**
+${F}
+
+**适用场景**
+${S}
+
+**常见问题**
+${Q}
+
+---
+
+## 2. 小红书（短笔记，痛点开头 + emoji + 标签）
+
+**标题**：😭终于把重要日子都记明白了｜${c.platform} 党狂喜
+
+以前重要日子全靠脑记，结果总在最后一刻才想起来…
+
+直到用了 ${c.name} 👇
+
+${c.features.slice(0,4).map(f=>`${f.icon} ${f.title}，${f.desc}`).join("\n")}
+
+${c.platform} 用户真的可以试试～
+
+**标签**：#${c.platform} #HarmonyOS #时间管理 #效率工具 #纪念日
+
+---
+
+## 3. 今日头条（资讯式，分段短句）
+
+**标题**：${c.name} 上线：把重要日子放进桌面服务卡片
+
+${c.description}
+
+据介绍，${c.name} 覆盖了${c.scenarios.map(s=>s.title).join("、")}等常见场景，并提供多级智能提醒。
+
+与传统记录类应用不同，它把最近的事件直接呈现在系统卡片与负一屏上，用户无需打开应用即可查看剩余天数。
+
+目前该应用已在${c.channels.map(x=>x.store).slice(0,2).join("、")}提供下载。
+
+---
+
+## 4. 百家号（偏科普，先说概念再说产品）
+
+**标题**：什么是事件记录？${c.platform} 应用 ${c.name} 给出了一个答案
+
+「事件记录」指的是把生活中需要被记住的时间节点集中管理，并在合适的时间提醒你。这类工具的价值在于两点：降低记录成本、提高提醒到达率。
+
+${c.name} 的做法是把事件放到系统服务卡片上，用系统级入口解决「看不着」的问题。
+
+**核心能力**
+${F}
+
+---
+
+## 5. 华为开发者社区（技术视角，强调鸿蒙原生）
+
+**标题**：${c.name} 的技术实践：基于 ${c.platform} 原生的事件提醒应用
+
+**背景**：事件记录类应用的核心体验瓶颈在于「触达」，而非「存储」。
+
+**方案**：${c.name} 基于 ${c.platform} 原生开发，使用服务卡片把最近事件暴露到桌面与负一屏；提醒链路走系统级通知，保证到达率。
+
+**功能构成**
+${F}
+
+**适配说明**
+- 系统：${c.os_list}
+- 生态：${kw(c,"harmony").join("、")||"鸿蒙原生"}
+
+---
+
+## 6. CSDN（开发者视角，问题—方案—结论）
+
+**标题**：${c.platform} 应用 ${c.name} 开发要点与上架记录
+
+1. **要解决的问题**：重要日子的提醒触达率低。
+2. **技术选型**：${c.platform} 原生 + 服务卡片 + 系统通知。
+3. **上架流程**：AppGallery Connect 配置 → 资质材料 → 提交审核。
+4. **优化重点**：标题与描述的关键词布局直接影响搜索曝光。
+
+**对比同类方案**
+${CP}
+
+---
+
+## 通投内容规范（所有平台通用）
+
+- 结论前置：第一段必须出现产品名 + 一句话定位
+- 分层小标题：用 H2/H3 或加粗小标题切分
+- 数据/对比：尽量给表格或列表，便于 AI 抽取
+- 来源标注：引用数据须注明来源
+- 结尾 FAQ：至少 3 条常见问答
+- 品牌统一：全平台使用同一产品名、同一 Slogan、同一官网链接
+`;
+}
+
+/* ---------------- ASO ---------------- */
+function genASO(c){
+  const core = kw(c,"core"), sceneT = c.scenarios.map(s=>s.title);
+  const title = `${c.name} - ${c.tagline}`;
+  const short = core.length ? `${c.tagline} ｜ ${core.slice(0,2).join("、")}` : c.tagline;
+  const backkw = Array.from(new Set([].concat(core,kw(c,"scene"),kw(c,"longtail"),kw(c,"harmony")))).join(",").slice(0,100);
+  const lead = `${c.name}（${c.tagline}）是一款${c.positioning}，核心能力包括${core.join("、")||"事件记录与提醒"}${sceneT.length?("，覆盖"+sceneT.join("、")+"等场景"):""}。`;
+  const longd = `${lead}\n\n${c.description}\n\n核心功能：${c.features.map(f=>f.title).join("；")}\n\n适用场景：${sceneT.join("；")}`;
+  const p0 = allP0(c), head = longd.slice(0,200), hit = p0.filter(w=>head.includes(w));
+  const row = (l,v,lim)=>{ const n=chars(v); return `| ${l} | ${String(v).replace(/\n/g,"<br>")} | ${n} | ${lim} | ${n<=lim?"✅":"❌ 超限"} |`; };
+  const asoT = `${c.name}-${c.tagline}`, askw = Array.from(new Set(core.concat(kw(c,"scene")))).join(",");
+  return `# ASO 元数据清单 · ${c.name}
+
+> 生成时间：${new Date().toISOString().slice(0,10)} ｜ 字符数上限为公开字段规格，上架前请以商店后台为准。
+
+## 一、华为应用市场（AppGallery）
+
+${c.platform} 应用的主分发渠道，搜索入口贡献大部分下载量。
+
+| 字段 | 内容 | 字符数 | 上限 | 校验 |
+|---|---|---:|---:|---|
+${row("标题",title,64)}
+${row("一句话简介",short,80)}
+${row("后台关键词",backkw,100)}
+${row("应用描述",longd,8000)}
+
+- 描述前 200 字含 P0 核心词：${hit.length}/${p0.length} ${hit.length?"✅":"⚠️ 建议补入核心词"}
+- 关键词密度建议 3%–5%，避免堆砌
+
+### 应用描述全文
+
+\`\`\`
+${longd}
+\`\`\`
+
+## 二、其他商店（如多端发行）
+
+### App Store
+
+| 字段 | 内容 | 字符数 | 上限 | 校验 |
+|---|---|---:|---:|---|
+${row("标题",asoT,30)}
+${row("副标题",c.tagline,30)}
+${row("关键词栏",askw,100)}
+
+### Google Play
+
+| 字段 | 内容 | 字符数 | 上限 | 校验 |
+|---|---|---:|---:|---|
+${row("标题",c.name,30)}
+${row("简短说明",c.tagline,80)}
+${row("完整说明（前 200 字）",c.description.slice(0,200),4000)}
+
+## 三、${c.platform} 生态适配（2026 华为新增权重项）
+
+应用市场排序中「${c.platform} 生态适配」为独立权重项，建议体现在标题/描述中：
+
+${(kw(c,"harmony").length?kw(c,"harmony"):["鸿蒙原生","元服务","服务卡片"]).map(w=>"- "+w).join("\n")}
+
+## 四、视觉与转化素材（需人工产出）
+
+- 应用图标：高对比、贴合华为用户审美，建议 A/B 测试
+- 截图：前 3 张突出核心功能与生态适配，第 4 张放用户好评，第 5 张引导下载
+- 视频：15–30 秒，展示服务卡片与提醒效果
+`;
+}
+
+/* ---------------- 关键词 ---------------- */
+function genKeywords(c){
+  const g = [
+    ["疑问类", kw(c,"core"), "用户直接求推荐，拦截需求"],
+    ["对比类", kw(c,"competitor"), "拦截竞品流量"],
+    ["场景类", kw(c,"scene").concat(kw(c,"longtail")), "吃长尾，覆盖真实使用场景"],
+    ["避坑类", kw(c,"avoid"), "承接决策前疑虑"]
+  ];
+  let total=0;
+  const rows = g.map(([n,w,r])=>{ total+=w.length; return `| ${n} | ${w.length} | ${r} | ${w.join("、")||"—"} |`; }).join("\n");
+  return `# 四维关键词矩阵 · ${c.name}
+
+> 按「用户在 AI 面前提问的方式」反推，而非堆搜索量。
+
+| 维度 | 数量 | 作用 | 关键词 |
+|---|---:|---|---|
+${rows}
+| **合计** | **${total}** |  |  |
+
+## 品牌词与生态词
+
+- 品牌词：${kw(c,"brand").join("、")||"—"}
+- ${c.platform} 生态词：${kw(c,"harmony").join("、")||"—"}
+
+## 优先级分层
+
+- P0（品牌 + 核心）：${allP0(c).join("、")||"—"}
+- P1（场景 + 长尾）：${kw(c,"scene").concat(kw(c,"longtail")).join("、")||"—"}
+- P2（对比 + 避坑）：${kw(c,"competitor").concat(kw(c,"avoid")).join("、")||"—"}
+
+## 布局规范
+
+- 标题承担最高权重：格式建议「品牌名 + 核心功能词 + 场景词」，通顺不堆砌
+- 简述嵌入 1 个核心词 + 1 个长尾词，核心信息前置
+- 后台关键词填满字符上限，补充标题未覆盖的近义词与生态相关词
+- 描述前 200 字必须出现核心词，全篇密度 3%–5%
+`;
+}
+
+/* ---------------- 监测问句 ---------------- */
+function genMonitor(c){
+  const qs=[];
+  kw(c,"brand").forEach(w=>qs.push(["P0","疑问类",w+" 是什么"]));
+  kw(c,"core").forEach(w=>{qs.push(["P0","疑问类",w+" 推荐"]);qs.push(["P1","疑问类",w+" 哪个好用"]);});
+  c.competitors.forEach(x=>qs.push(["P2","对比类",`${c.name} 和 ${x} 哪个好`]));
+  kw(c,"scene").forEach(w=>qs.push(["P1","场景类",w+" 用什么工具"]));
+  kw(c,"longtail").forEach(w=>qs.push(["P1","场景类",w]));
+  kw(c,"avoid").forEach(w=>qs.push(["P2","避坑类",w]));
+  kw(c,"harmony").forEach(w=>qs.push(["P1","场景类",`${c.platform} ${w} 相关应用推荐`]));
+  const pref={"小艺":["华为生态内容优先（开发者社区/官方文档/权威媒体）","鸿蒙生态核心入口"],
+    "华为搜索":["7 天内时效 > 权威来源 > 高互动 > 原创 > 结构化","与应用市场联动"],
+    "豆包":["时效 > 权威 > 高互动 > 原创 > 结构化（EEAT）","通用 AI 搜索入口"],
+    "DeepSeek":["权威来源与长文结构化内容权重高","技术类问题优势"]};
+  const eng=c.ai_engines;
+  const head=`| # | 优先级 | 维度 | 问句 | ${eng.join(" | ")} |\n|---:|:--:|---|---|${"---|".repeat(eng.length)}`;
+  const body=qs.map((q,i)=>`| ${i+1} | ${q[0]} | ${q[1]} | ${q[2]} |${" |".repeat(eng.length)}`).join("\n");
+  const pt=eng.map(e=>{const p=pref[e]||["权威来源 > 时效 > 互动 > 原创","通用"];return `| ${e} | ${p[0]} | ${p[1]} |`;}).join("\n");
+  return `# AI 搜索监测问句清单 · ${c.name}
+
+> 三固定原则：固定账号、固定设备、固定时段。每条记录「是否推荐 / 排名 / 引用来源 / 截图」。
+
+## 监测引擎与抓取偏好
+
+| 引擎 | 抓取偏好 | 备注 |
+|---|---|---|
+${pt}
+
+## 问句清单（共 ${qs.length} 条）
+
+${head}
+${body}
+
+## 记录字段
+
+问句编号 / 优先级 / 引擎 / 是否推荐 / 品牌排名 / TOP3 竞品 / 引用来源平台 / 截图文件名 / 日期
+
+## 目标值
+
+- 核心问句推荐率 ≥60%（第 3 个月）
+- TOP3 占比 ≥40%
+- 关键词覆盖 60+，P0 覆盖度 100%
+- 行业共识 GEO 认知建设周期 3–6 个月
+`;
+}
+
+/* ---------------- 分发排期 ---------------- */
+function genDist(c){
+  const rows = c.dist_platforms.map((p,i)=>{
+    let t,a;
+    if(i===0){t="T+0";a="发布落地页与产品公告，提交搜索引擎收录";}
+    else if(i<=Math.max(1,Math.floor(c.dist_platforms.length/2))){t="T+24h";a="发布适配文案，@相关话题，挂官网链接";}
+    else {t="T+48h";a="发布长尾/问答内容，评论区引导，收集提问";}
+    return `| ${t} | ${p} | ${c.name} 相关文案 | ${a} | ☐ |`;
+  }).join("\n");
+  return `# 48 小时分发排期表 · ${c.name}
+
+> 黄金窗口节奏：官网首发 → 24h 生态/资讯 → 48h 知识社区与长尾全覆盖。
+
+| 时间 | 平台 | 内容 | 动作 | 完成 |
+|---|---|---|---|:--:|
+${rows}
+
+## 72 小时互动动作
+
+- T+72h：回复所有评论，把高频问题沉淀成新的 FAQ
+- 记录每个平台的首日曝光与站外引流数
+- 把用户原话摘出来，作为下一轮内容素材（EEAT 的「经验」维度）
+
+## 分发记录字段
+
+平台 / 发布时间 / 标题 / 链接 / 首日曝光 / 站外引流 / 评论数 / 备注
+`;
+}
+
+/* ---------------- 人工清单 ---------------- */
+function genChecklist(c){
+  return `# 人工必做清单 · ${c.name}
+
+> 以下事项流水线无法代办，需要你本人完成（多数涉及主体资质与线下审核）。
+
+## 上架前
+
+| # | 事项 | 说明 | 状态 |
+|---:|---|---|:--:|
+| 1 | 主体资质 | 企业/个人开发者实名认证，需营业执照或身份证 | ☐ |
+| 2 | 软件著作权 | 国内商店上架通常需要软著证书（周期较长，建议提前） | ☐ |
+| 3 | ICP 备案 | 官网域名需完成 ICP 备案才能在国内正常访问 | ☐ |
+| 4 | 隐私政策 | 应用内与官网均需合规隐私政策，说明数据收集范围 | ☐ |
+| 5 | 应用图标 / 截图 / 视频 | 视觉素材必须真人产出，建议 A/B 测试 | ☐ |
+| 6 | 应用签名与包体 | ${c.platform} 应用需完成签名与包体自测 | ☐ |
+
+## 上架与审核
+
+| # | 事项 | 说明 | 状态 |
+|---:|---|---|:--:|
+| 7 | 应用商店上架提交 | AppGallery Connect 提交审核（时长以官方为准） | ☐ |
+| 8 | 元数据回填 | 把 ASO 清单的标题/简介/关键词/描述填入商店后台 | ☐ |
+| 9 | 审核被打回处理 | 按审核意见修改并重新提交 | ☐ |
+| 10 | 版本更新维护 | 每次发版同步更新元数据与截图 | ☐ |
+
+## 上线后 · 必须真人执行
+
+| # | 事项 | 说明 | 状态 |
+|---:|---|---|:--:|
+| 11 | 真实用户好评引导 | 应用内引导真实评价（不得以利益换取指定星级） | ☐ |
+| 12 | 差评回复 | 真人回复差评，态度诚恳并给出解决路径 | ☐ |
+| 13 | 评论区运营 | 在知乎/小红书等平台真人互动，回复提问 | ☐ |
+| 14 | 媒体与投放 | 联系科技媒体、付费投放需人工决策与预算 | ☐ |
+| 15 | 编辑推荐申报 | 向应用市场申报「编辑推荐 / 策展空间」 | ☐ |
+
+> 合规红线：不得机刷、买量、以红包/权益换取指定星级好评。
+`;
+}
+
+function packAll(c){
+  return [genContent(c),genASO(c),genKeywords(c),genMonitor(c),genDist(c),genChecklist(c)].join("\n\n---\n\n");
+}
+
+/* ---------------- 运行与导出 ---------------- */
+function download(name, text, mime){
+  const b = new Blob([text], {type:(mime||"text/plain")+";charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(b); a.download = name; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 1500);
+}
+
+function run(){
+  const c = buildCfg();
+  document.getElementById("outContent").textContent = genContent(c);
+  document.getElementById("outAso").textContent = genASO(c);
+  document.getElementById("outKeywords").textContent = genKeywords(c);
+  document.getElementById("outMonitor").textContent = genMonitor(c);
+  document.getElementById("outDist").textContent = genDist(c);
+  document.getElementById("outChecklist").textContent = genChecklist(c);
+  document.getElementById("landingFrame").srcdoc = genLanding(c);
+  document.getElementById("output").scrollIntoView({behavior:"smooth"});
+}
+
+document.querySelectorAll(".tab").forEach(t=>{
+  t.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+    document.querySelectorAll(".pane").forEach(x=>x.classList.remove("active"));
+    t.classList.add("active");
+    document.getElementById("pane-"+t.dataset.tab).classList.add("active");
+  });
+});
+
+run();
+</script>
+</body>
+</html>

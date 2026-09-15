@@ -12,3 +12,9 @@ venv/
 .idea/
 .DS_Store
 Thumbs.db
+
+# WorkBuddy 工作区数据（本地记忆，不外发）
+.workbuddy/
+
+# 流水线输出（可随时用 python pipeline/generate.py 重新生成）
+pipeline/out/
