@@ -4,6 +4,7 @@
 
   "name": "悦动运动",
   "slug": "yuedong-yundong",
+  "accent": "#FF7A18",
   "tagline": "科学运动，轻松坚持",
   "slogan": "让运动成为习惯",
   "platform": "HarmonyOS",

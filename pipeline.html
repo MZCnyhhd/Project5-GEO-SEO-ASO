@@ -327,71 +327,154 @@ function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").rep
 function allP0(c){ return kw(c,"brand").concat(kw(c,"core")); }
 
 /* ---------------- 落地页 ---------------- */
-const LANDING_CSS = `
+function shade(hex, f){
+  hex = String(hex).replace('#','');
+  if(hex.length===3) hex = hex.split('').map(c=>c+c).join('');
+  let r=parseInt(hex.slice(0,2),16), g=parseInt(hex.slice(2,4),16), b=parseInt(hex.slice(4,6),16);
+  if(f>=0){ r=Math.round(r+(255-r)*f); g=Math.round(g+(255-g)*f); b=Math.round(b+(255-b)*f); }
+  else { const k=1+f; r=Math.round(r*k); g=Math.round(g*k); b=Math.round(b*k); }
+  const h=x=>('0'+x.toString(16)).slice(-2);
+  return '#'+h(r)+h(g)+h(b);
+}
+
+const LANDING_CSS = `:root{
+  --accent:#4f46e5;
+  --accent-2:#7c3aed;
+  --accent-soft:#eef2ff;
+  --ink:#161b26;
+  --muted:#6b7280;
+  --line:#e8eaf2;
+  --alt:#f7f8fc;
+  --radius:20px;
+  --maxw:1160px;
+}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6;color:#333;background:#fff}
-.container{max-width:1200px;margin:0 auto;padding:0 24px}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.65;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased}
 a{text-decoration:none;color:inherit}
-.hero{background:linear-gradient(135deg,#FFD700 0%,#FFA500 35%,#FF8C00 70%,#FF6B35 100%);color:#fff;padding:96px 0 110px;text-align:center}
-.hero h1{font-size:54px;font-weight:800;margin-bottom:14px;letter-spacing:2px}
-.hero .subtitle{font-size:23px;font-weight:500;margin-bottom:24px;opacity:.95}
-.hero .desc{font-size:17px;max-width:720px;margin:0 auto 44px;opacity:.92;line-height:1.8}
-.hero-buttons{display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
-.btn-primary,.btn-secondary{display:inline-flex;align-items:center;gap:10px;padding:15px 36px;border-radius:50px;font-size:17px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.15)}
-.btn-primary{background:#fff;color:#FF8C00}
-.btn-secondary{background:rgba(255,255,255,.2);color:#fff;border:2px solid rgba(255,255,255,.6)}
-.slogan{margin-top:32px;font-size:18px;letter-spacing:3px;opacity:.9}
-.section{padding:84px 0}
-.section-alt{background:#FFF9F2}
-.section-title{text-align:center;font-size:36px;font-weight:700;color:#222;margin-bottom:14px}
-.section-subtitle{text-align:center;font-size:17px;color:#777;margin:0 auto 56px;max-width:640px}
-.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:26px}
-.feature-card{background:#fff;border-radius:20px;padding:34px 28px;box-shadow:0 4px 20px rgba(255,140,0,.08);border:1px solid rgba(255,140,0,.1)}
-.feature-icon{font-size:50px;margin-bottom:18px;display:inline-block}
-.feature-card h3{font-size:20px;font-weight:700;color:#FF8C00;margin-bottom:12px}
-.feature-card p{font-size:15px;color:#666;line-height:1.7}
-.scenes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
-.scene-card{background:linear-gradient(145deg,#fff,#FFF9F2);border-radius:18px;padding:38px 26px;text-align:center;border:2px solid transparent}
-.scene-emoji{font-size:60px;margin-bottom:18px}
-.scene-card h3{font-size:21px;font-weight:700;color:#333;margin-bottom:10px}
-.scene-card p{font-size:15px;color:#777;line-height:1.7}
-.download-section{background:linear-gradient(135deg,#FF6B35 0%,#FF8C00 50%,#FFD700 100%);color:#fff;text-align:center;padding:92px 0}
-.download-section h2{font-size:40px;font-weight:700;margin-bottom:14px}
-.download-section .tagline{font-size:19px;opacity:.95;margin-bottom:44px;letter-spacing:1px}
-.download-buttons{display:flex;gap:22px;justify-content:center;flex-wrap:wrap}
-.download-btn{display:inline-flex;align-items:center;gap:12px;padding:17px 40px;border-radius:14px;font-size:17px;font-weight:600;background:#fff;color:#333;box-shadow:0 8px 28px rgba(0,0,0,.2)}
-.download-btn .icon{font-size:27px}
-.download-btn .text small{display:block;font-size:12px;color:#888;font-weight:400}
-.faq-wrapper{max-width:860px;margin:0 auto}
-.faq-item{background:#fff;border-radius:14px;margin-bottom:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);overflow:hidden;border:1px solid #F0E6D8}
-.faq-question{padding:20px 26px;font-size:17px;font-weight:600;color:#333;background:linear-gradient(90deg,#FFF9F2,#fff);cursor:pointer;display:flex;justify-content:space-between;align-items:center}
-.faq-question::after{content:"+";font-size:24px;color:#FF8C00}
-.faq-item.open .faq-answer{padding:0 26px 22px;max-height:420px}
-.faq-answer{padding:0 26px;max-height:0;overflow:hidden;transition:all .35s ease;font-size:15px;color:#666;line-height:1.8}
-footer{background:#1a1a1a;color:#aaa;padding:44px 0 30px;text-align:center}
-footer .footer-brand{font-size:20px;font-weight:700;color:#FFD700;margin-bottom:10px}
-footer .footer-slogan{font-size:14px;margin-bottom:20px;letter-spacing:2px}
-footer .copyright{font-size:13px;opacity:.7;border-top:1px solid #333;padding-top:18px;margin-top:18px}
-@media(max-width:768px){.hero{padding:66px 0 84px}.hero h1{font-size:36px}.section{padding:56px 0}.section-title{font-size:27px}.features-grid,.scenes-grid{grid-template-columns:1fr}}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+/* 顶部导航 */
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{font-weight:800;font-size:19px;letter-spacing:.5px;display:flex;align-items:center;gap:8px}
+.brand .dot{width:11px;height:11px;border-radius:3px;background:linear-gradient(135deg,var(--accent),var(--accent-2))}
+.nav-cta{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;padding:9px 18px;border-radius:999px;font-weight:600;font-size:14px;transition:.25s}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(79,70,229,.28)}
+
+/* 主视觉 */
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--accent) 0%,var(--accent-2) 100%);color:#fff;padding:96px 0 104px;text-align:center}
+.hero-glow{position:absolute;width:640px;height:640px;background:radial-gradient(circle,rgba(255,255,255,.30),transparent 60%);top:-240px;left:50%;transform:translateX(-50%);pointer-events:none}
+.hero-inner{position:relative}
+.badge{display:inline-block;padding:6px 16px;border:1px solid rgba(255,255,255,.5);border-radius:999px;font-size:13px;letter-spacing:1px;margin-bottom:22px;opacity:.95}
+.hero h1{font-size:56px;font-weight:800;letter-spacing:1px;margin-bottom:14px}
+.hero-tag{font-size:22px;font-weight:500;opacity:.96;margin-bottom:20px}
+.hero-desc{font-size:17px;max-width:720px;margin:0 auto 36px;opacity:.92;line-height:1.85}
+.hero-cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn-primary,.btn-secondary{display:inline-flex;align-items:center;gap:9px;padding:14px 32px;border-radius:999px;font-size:16px;font-weight:600;transition:.25s}
+.btn-primary{background:#fff;color:var(--accent-2)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,.2)}
+.btn-secondary{background:rgba(255,255,255,.16);color:#fff;border:1.5px solid rgba(255,255,255,.55)}
+.btn-secondary:hover{background:rgba(255,255,255,.28);transform:translateY(-3px)}
+.hero-trust{margin-top:28px;font-size:14px;opacity:.85}
+
+/* 区块通用 */
+.section{padding:88px 0}
+.section-alt{background:var(--alt)}
+.section-title{text-align:center;font-size:34px;font-weight:800;margin-bottom:12px;letter-spacing:.5px}
+.section-subtitle{text-align:center;font-size:16px;color:var(--muted);margin:0 auto 52px;max-width:660px;line-height:1.7}
+
+/* 痛点 -> 解法 */
+.pain{background:linear-gradient(180deg,#fbfcff,#fff);padding:80px 0;border-top:1px solid var(--line)}
+.pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:980px;margin:0 auto}
+.pain-col{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:34px 30px;box-shadow:0 10px 30px rgba(22,27,38,.05)}
+.eyebrow{display:inline-block;font-size:13px;font-weight:700;letter-spacing:1px;padding:4px 12px;border-radius:999px;margin-bottom:16px}
+.pain-col .eyebrow{background:#fff0f0;color:#e0483b}
+.pain-solve .eyebrow{background:var(--accent-soft);color:var(--accent-2)}
+.pain-text{font-size:17px;line-height:1.8;color:#374151}
+.pain-list{list-style:none;margin-top:16px}
+.pain-list li{position:relative;padding-left:24px;margin-bottom:11px;font-size:15px;color:#374151;line-height:1.6}
+.pain-list li::before{content:"✓";position:absolute;left:0;color:var(--accent-2);font-weight:800}
+
+/* 数据条 */
+.stats{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center;padding:54px 0}
+.stats strong{display:block;font-size:38px;font-weight:800;line-height:1.1}
+.stats span{font-size:14px;opacity:.9;letter-spacing:1px}
+
+/* 核心功能 */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.feature-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:32px 26px;transition:.25s}
+.feature-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(22,27,38,.08);border-color:transparent}
+.feature-icon{width:58px;height:58px;display:flex;align-items:center;justify-content:center;font-size:30px;background:var(--accent-soft);border-radius:14px;margin-bottom:18px}
+.feature-card h3{font-size:19px;font-weight:700;margin-bottom:10px}
+.feature-card p{font-size:15px;color:var(--muted);line-height:1.75}
+
+/* 适用场景 */
+.scenes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.scene-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:34px 24px;text-align:center;transition:.25s}
+.scene-card:hover{transform:translateY(-6px);box-shadow:0 14px 34px rgba(22,27,38,.07);border-color:var(--accent)}
+.scene-emoji{font-size:46px;margin-bottom:14px}
+.scene-card h3{font-size:19px;font-weight:700;margin-bottom:8px}
+.scene-card p{font-size:14px;color:var(--muted);line-height:1.7}
+
+/* 下载 / CTA */
+.download-section{background:linear-gradient(135deg,var(--accent-2),var(--accent));color:#fff;text-align:center;padding:92px 0}
+.download-section h2{font-size:38px;font-weight:800;margin-bottom:12px}
+.download-section .tagline{font-size:18px;opacity:.95;margin-bottom:40px;letter-spacing:1px}
+.download-buttons{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+.download-btn{display:inline-flex;align-items:center;gap:12px;padding:16px 34px;border-radius:14px;font-size:16px;font-weight:600;background:#fff;color:var(--ink);transition:.25s;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.download-btn:hover{transform:translateY(-4px)}
+.download-btn .icon{font-size:26px}
+.download-btn .text small{display:block;font-size:12px;color:#8b90a0;font-weight:400}
+
+/* FAQ */
+.faq-wrapper{max-width:840px;margin:0 auto}
+.faq-item{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:14px;overflow:hidden;transition:.25s}
+.faq-item:hover{border-color:var(--accent)}
+.faq-question{padding:20px 24px;font-size:16px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.faq-question::after{content:"+";font-size:22px;color:var(--accent-2);transition:transform .3s}
+.faq-item.open .faq-question::after{transform:rotate(45deg)}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease;font-size:15px;color:var(--muted);line-height:1.8;padding:0 24px}
+.faq-item.open .faq-answer{padding:0 24px 22px;max-height:600px}
+
+/* 页脚 */
+footer{background:#0f1220;color:#aeb3c2;padding:52px 0 34px;text-align:center}
+.footer-brand{font-size:20px;font-weight:800;color:#fff;margin-bottom:8px}
+.footer-slogan{font-size:14px;margin-bottom:18px;letter-spacing:1px;opacity:.8}
+.copyright{font-size:13px;opacity:.6;border-top:1px solid #232838;padding-top:18px;margin-top:18px}
+
+@media(max-width:768px){
+  .hero{padding:66px 0 78px}.hero h1{font-size:34px}.hero-tag{font-size:18px}.section{padding:56px 0}
+  .section-title{font-size:26px}.pain-grid{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,1fr);gap:18px}
+  .features-grid,.scenes-grid{grid-template-columns:1fr}.download-section h2{font-size:28px}
+}
 `;
 
 function genLanding(c){
-  const core = kw(c,"core");
-  const sceneT = c.scenarios.map(s=>s.title);
-  const lead = `${c.name}（${c.tagline}）是一款${c.positioning}，核心能力包括${core.join("、")||"多项核心能力"}${sceneT.length?("，覆盖"+sceneT.join("、")+"等场景"):""}。`;
+  const kwList = kw(c,"brand").concat(kw(c,"core"),kw(c,"scene"));
   const appLd = {"@context":"https://schema.org","@type":"MobileApplication","name":c.name,
-    "applicationCategory":c.category,"operatingSystem":c.os_list,
+    "applicationCategory":c.category,"operatingSystem":c.os_list||c.platform,
     "offers":{"@type":"Offer","price":c.price,"priceCurrency":c.currency},
-    "aggregateRating":{"@type":"AggregateRating","ratingValue":c.rating_value,"ratingCount":c.rating_count},
     "description":c.description};
+  if(c.rating_value){ appLd.aggregateRating={"@type":"AggregateRating","ratingValue":c.rating_value,"ratingCount":c.rating_count}; }
   const faqLd = {"@context":"https://schema.org","@type":"FAQPage","mainEntity":c.faq.map(f=>({"@type":"Question","name":f.q,"acceptedAnswer":{"@type":"Answer","text":f.a}}))};
+
   const heroBtns = c.channels.slice(0,2).map((ch,i)=>
-    `<a href="${esc(ch.url)}" class="${i===0?"btn-primary":"btn-secondary"}" target="_blank" rel="noopener"><span style="font-size:22px">${ch.icon||"⬇"}</span><span>${esc(ch.store)}</span></a>`).join("\n      ");
+    `<a href="${esc(ch.url)}" class="${i===0?"btn-primary":"btn-secondary"}" target="_blank" rel="noopener"><span style="font-size:20px">${ch.icon||"⬇"}</span><span>${esc(ch.store)}</span></a>`).join("\n      ");
   const dlBtns = c.channels.map(ch=>
     `<a href="${esc(ch.url)}" class="download-btn" target="_blank" rel="noopener"><span class="icon">${ch.icon||"⬇"}</span><span class="text">${esc(ch.store)}<small>${esc(ch.note)}</small></span></a>`).join("\n      ");
   const feats = c.features.map(f=>`<div class="feature-card"><div class="feature-icon">${f.icon}</div><h3>${esc(f.title)}</h3><p>${esc(f.desc)}</p></div>`).join("\n      ");
   const scenes = c.scenarios.map(s=>`<div class="scene-card"><div class="scene-emoji">${s.icon}</div><h3>${esc(s.title)}</h3><p>${esc(s.desc)}</p></div>`).join("\n      ");
   const faqs = c.faq.map(f=>`<div class="faq-item"><div class="faq-question">${esc(f.q)}</div><div class="faq-answer"><p>${esc(f.a)}</p></div></div>`).join("\n      ");
+  const painList = c.features.slice(0,3).map(f=>`<li><b>${esc(f.title)}</b> — ${esc(f.desc)}</li>`).join("\n          ");
+  const featTitles = c.features.map(f=>f.title).join(" · ");
+  const nav = c.channels[0] || {url:"#",store:"下载"};
+  const rating = c.rating_value || "—";
+  const ratingCount = c.rating_count || "0";
+  const osList = c.os_list || c.platform || "";
+  const themeStyle = c.accent ? `<style>:root{--accent:${c.accent};--accent-2:${shade(c.accent,-0.18)};--accent-soft:${shade(c.accent,0.88)}}</style>` : "";
+  const painSolve = c.positioning || c.description;
   return `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -399,10 +482,13 @@ function genLanding(c){
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${esc(c.name)} - ${esc(c.tagline)}</title>
 <meta name="description" content="${esc(c.description)}">
+<meta name="keywords" content="${esc(kwList.join(","))}">
 <meta property="og:title" content="${esc(c.name)} - ${esc(c.tagline)}">
 <meta property="og:description" content="${esc(c.description)}">
+<meta property="og:type" content="website">
 <link rel="canonical" href="${esc(c.website)}">
 <style>${LANDING_CSS}</style>
+${themeStyle}
 <script type="application/ld+json">
 ${JSON.stringify(appLd,null,2)}
 <\/script>
@@ -411,26 +497,66 @@ ${JSON.stringify(faqLd,null,2)}
 <\/script>
 </head>
 <body>
+<header class="nav">
+  <div class="container nav-inner">
+    <div class="brand"><span class="dot"></span>${esc(c.name)}</div>
+    <a class="nav-cta" href="${esc(nav.url)}" target="_blank" rel="noopener">${esc(nav.store)} ↗</a>
+  </div>
+</header>
+
 <section class="hero">
-  <div class="container">
+  <div class="hero-glow"></div>
+  <div class="container hero-inner">
+    <span class="badge">${esc(c.category)}</span>
     <h1>${esc(c.name)}</h1>
-    <div class="subtitle">${esc(c.tagline)}</div>
-    <p class="desc">${lead}</p>
-    <div class="hero-buttons">
+    <p class="hero-tag">${esc(c.tagline)}</p>
+    <p class="hero-desc">${esc(c.description)}</p>
+    <div class="hero-cta">
       ${heroBtns}
     </div>
-    <div class="slogan">${esc(c.slogan)}</div>
+    <p class="hero-trust">已支持 ${esc(osList)} · 评分 ${esc(rating)} ★（${esc(ratingCount)} 条评价）</p>
   </div>
 </section>
+
+<section class="pain">
+  <div class="container">
+    <h2 class="section-title">你是否在为这件事发愁？</h2>
+    <p class="section-subtitle">${esc(c.name)}的存在，正是为了把这件难事变简单。</p>
+    <div class="pain-grid">
+      <div class="pain-col">
+        <span class="eyebrow">痛点</span>
+        <p class="pain-text">${esc(c.pain_point||"")}</p>
+      </div>
+      <div class="pain-col pain-solve">
+        <span class="eyebrow">解法</span>
+        <p class="pain-text">${esc(painSolve)}</p>
+        <ul class="pain-list">
+          ${painList}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="container stats-grid">
+    <div><strong>${esc(rating)}</strong><span>用户评分</span></div>
+    <div><strong>${esc(ratingCount)}+</strong><span>真实评价</span></div>
+    <div><strong>${c.features.length}</strong><span>核心能力</span></div>
+    <div><strong>${c.scenarios.length}</strong><span>适用场景</span></div>
+  </div>
+</section>
+
 <section class="section">
   <div class="container">
     <h2 class="section-title">核心功能</h2>
-    <p class="section-subtitle">${esc(c.features.map(f=>f.title).join(" · "))}</p>
+    <p class="section-subtitle">${esc(featTitles)}</p>
     <div class="features-grid">
       ${feats}
     </div>
   </div>
 </section>
+
 <section class="section section-alt">
   <div class="container">
     <h2 class="section-title">适用场景</h2>
@@ -440,15 +566,17 @@ ${JSON.stringify(faqLd,null,2)}
     </div>
   </div>
 </section>
+
 <section class="download-section">
   <div class="container">
-    <h2>立即使用 ${esc(c.name)}</h2>
+    <h2>立即开始使用 ${esc(c.name)}</h2>
     <p class="tagline">${esc(c.slogan)}</p>
     <div class="download-buttons">
       ${dlBtns}
     </div>
   </div>
 </section>
+
 <section class="section">
   <div class="container">
     <h2 class="section-title">常见问题 FAQ</h2>
@@ -458,6 +586,7 @@ ${JSON.stringify(faqLd,null,2)}
     </div>
   </div>
 </section>
+
 <footer>
   <div class="container">
     <div class="footer-brand">${esc(c.name)}</div>
@@ -465,6 +594,7 @@ ${JSON.stringify(faqLd,null,2)}
     <div class="copyright">© ${esc(c.copyright_year)} ${esc(c.team)} 版权所有 | ${esc(c.contact_email)}</div>
   </div>
 </footer>
+
 <script>
 document.querySelectorAll('.faq-question').forEach(function(q){
   q.addEventListener('click',function(){
@@ -477,6 +607,7 @@ document.querySelectorAll('.faq-question').forEach(function(q){
 </body>
 </html>`;
 }
+
 
 /* ---------------- 文案 ---------------- */
 function genContent(c){

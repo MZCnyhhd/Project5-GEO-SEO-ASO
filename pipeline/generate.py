@@ -61,67 +61,152 @@ def all_p0(cfg):
 
 
 # ---------------------------------------------------------------- 落地页
-LANDING_CSS = """
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; line-height:1.6; color:#333; background:#fff; }
-.container { max-width:1200px; margin:0 auto; padding:0 24px; }
-a { text-decoration:none; color:inherit; }
-.hero { background:linear-gradient(135deg,#FFD700 0%,#FFA500 35%,#FF8C00 70%,#FF6B35 100%); color:#fff; padding:96px 0 110px; text-align:center; }
-.hero h1 { font-size:54px; font-weight:800; margin-bottom:14px; letter-spacing:2px; }
-.hero .subtitle { font-size:23px; font-weight:500; margin-bottom:24px; opacity:.95; }
-.hero .desc { font-size:17px; max-width:720px; margin:0 auto 44px; opacity:.92; line-height:1.8; }
-.hero-buttons { display:flex; gap:18px; justify-content:center; flex-wrap:wrap; }
-.btn-primary,.btn-secondary { display:inline-flex; align-items:center; gap:10px; padding:15px 36px; border-radius:50px; font-size:17px; font-weight:600; transition:all .3s ease; box-shadow:0 8px 24px rgba(0,0,0,.15); }
-.btn-primary { background:#fff; color:#FF8C00; }
-.btn-primary:hover { transform:translateY(-3px); }
-.btn-secondary { background:rgba(255,255,255,.2); color:#fff; border:2px solid rgba(255,255,255,.6); }
-.btn-secondary:hover { background:rgba(255,255,255,.35); transform:translateY(-3px); }
-.slogan { margin-top:32px; font-size:18px; font-weight:500; letter-spacing:3px; opacity:.9; }
-.section { padding:84px 0; }
-.section-alt { background:#FFF9F2; }
-.section-title { text-align:center; font-size:36px; font-weight:700; color:#222; margin-bottom:14px; }
-.section-subtitle { text-align:center; font-size:17px; color:#777; margin:0 auto 56px; max-width:640px; }
-.features-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:26px; }
-.feature-card { background:#fff; border-radius:20px; padding:34px 28px; box-shadow:0 4px 20px rgba(255,140,0,.08); border:1px solid rgba(255,140,0,.1); transition:all .3s ease; }
-.feature-card:hover { transform:translateY(-8px); box-shadow:0 12px 40px rgba(255,140,0,.18); }
-.feature-icon { font-size:50px; margin-bottom:18px; display:inline-block; }
-.feature-card h3 { font-size:20px; font-weight:700; color:#FF8C00; margin-bottom:12px; }
-.feature-card p { font-size:15px; color:#666; line-height:1.7; }
-.scenes-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:22px; }
-.scene-card { background:linear-gradient(145deg,#fff,#FFF9F2); border-radius:18px; padding:38px 26px; text-align:center; border:2px solid transparent; transition:all .3s ease; }
-.scene-card:hover { border-color:#FFA500; transform:scale(1.03); }
-.scene-emoji { font-size:60px; margin-bottom:18px; }
-.scene-card h3 { font-size:21px; font-weight:700; color:#333; margin-bottom:10px; }
-.scene-card p { font-size:15px; color:#777; line-height:1.7; }
-.download-section { background:linear-gradient(135deg,#FF6B35 0%,#FF8C00 50%,#FFD700 100%); color:#fff; text-align:center; padding:92px 0; }
-.download-section h2 { font-size:40px; font-weight:700; margin-bottom:14px; }
-.download-section .tagline { font-size:19px; opacity:.95; margin-bottom:44px; letter-spacing:1px; }
-.download-buttons { display:flex; gap:22px; justify-content:center; flex-wrap:wrap; }
-.download-btn { display:inline-flex; align-items:center; gap:12px; padding:17px 40px; border-radius:14px; font-size:17px; font-weight:600; background:#fff; color:#333; transition:all .3s ease; box-shadow:0 8px 28px rgba(0,0,0,.2); }
-.download-btn:hover { transform:translateY(-4px); }
-.download-btn .icon { font-size:27px; }
-.download-btn .text small { display:block; font-size:12px; color:#888; font-weight:400; }
-.faq-wrapper { max-width:860px; margin:0 auto; }
-.faq-item { background:#fff; border-radius:14px; margin-bottom:14px; box-shadow:0 2px 12px rgba(0,0,0,.06); overflow:hidden; border:1px solid #F0E6D8; }
-.faq-question { padding:20px 26px; font-size:17px; font-weight:600; color:#333; background:linear-gradient(90deg,#FFF9F2,#fff); cursor:pointer; display:flex; justify-content:space-between; align-items:center; }
-.faq-question::after { content:"+"; font-size:24px; color:#FF8C00; transition:transform .3s ease; }
-.faq-item.open .faq-question::after { transform:rotate(45deg); }
-.faq-answer { padding:0 26px; max-height:0; overflow:hidden; transition:all .35s ease; font-size:15px; color:#666; line-height:1.8; }
-.faq-item.open .faq-answer { padding:0 26px 22px; max-height:420px; }
-footer { background:#1a1a1a; color:#aaa; padding:44px 0 30px; text-align:center; }
-footer .footer-brand { font-size:20px; font-weight:700; color:#FFD700; margin-bottom:10px; }
-footer .footer-slogan { font-size:14px; margin-bottom:20px; letter-spacing:2px; }
-footer .copyright { font-size:13px; opacity:.7; border-top:1px solid #333; padding-top:18px; margin-top:18px; }
-@media (max-width:768px){
-  .hero { padding:66px 0 84px; } .hero h1 { font-size:36px; } .hero .subtitle { font-size:19px; }
-  .hero .desc { font-size:15px; } .section { padding:56px 0; } .section-title { font-size:27px; }
-  .download-section h2 { font-size:29px; } .features-grid,.scenes-grid { grid-template-columns:1fr; }
+def shade(hex_color, factor):
+    h = str(hex_color).lstrip('#')
+    if len(h) == 3:
+        h = ''.join(c * 2 for c in h)
+    r, g, b = int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+    if factor >= 0:
+        r = int(r + (255 - r) * factor)
+        g = int(g + (255 - g) * factor)
+        b = int(b + (255 - b) * factor)
+    else:
+        k = 1 + factor
+        r, g, b = int(r * k), int(g * k), int(b * k)
+    return '#%02x%02x%02x' % (r, g, b)
+
+
+LANDING_CSS = """:root{
+  --accent:#4f46e5;
+  --accent-2:#7c3aed;
+  --accent-soft:#eef2ff;
+  --ink:#161b26;
+  --muted:#6b7280;
+  --line:#e8eaf2;
+  --alt:#f7f8fc;
+  --radius:20px;
+  --maxw:1160px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.65;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+/* 顶部导航 */
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{font-weight:800;font-size:19px;letter-spacing:.5px;display:flex;align-items:center;gap:8px}
+.brand .dot{width:11px;height:11px;border-radius:3px;background:linear-gradient(135deg,var(--accent),var(--accent-2))}
+.nav-cta{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;padding:9px 18px;border-radius:999px;font-weight:600;font-size:14px;transition:.25s}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(79,70,229,.28)}
+
+/* 主视觉 */
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--accent) 0%,var(--accent-2) 100%);color:#fff;padding:96px 0 104px;text-align:center}
+.hero-glow{position:absolute;width:640px;height:640px;background:radial-gradient(circle,rgba(255,255,255,.30),transparent 60%);top:-240px;left:50%;transform:translateX(-50%);pointer-events:none}
+.hero-inner{position:relative}
+.badge{display:inline-block;padding:6px 16px;border:1px solid rgba(255,255,255,.5);border-radius:999px;font-size:13px;letter-spacing:1px;margin-bottom:22px;opacity:.95}
+.hero h1{font-size:56px;font-weight:800;letter-spacing:1px;margin-bottom:14px}
+.hero-tag{font-size:22px;font-weight:500;opacity:.96;margin-bottom:20px}
+.hero-desc{font-size:17px;max-width:720px;margin:0 auto 36px;opacity:.92;line-height:1.85}
+.hero-cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn-primary,.btn-secondary{display:inline-flex;align-items:center;gap:9px;padding:14px 32px;border-radius:999px;font-size:16px;font-weight:600;transition:.25s}
+.btn-primary{background:#fff;color:var(--accent-2)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,.2)}
+.btn-secondary{background:rgba(255,255,255,.16);color:#fff;border:1.5px solid rgba(255,255,255,.55)}
+.btn-secondary:hover{background:rgba(255,255,255,.28);transform:translateY(-3px)}
+.hero-trust{margin-top:28px;font-size:14px;opacity:.85}
+
+/* 区块通用 */
+.section{padding:88px 0}
+.section-alt{background:var(--alt)}
+.section-title{text-align:center;font-size:34px;font-weight:800;margin-bottom:12px;letter-spacing:.5px}
+.section-subtitle{text-align:center;font-size:16px;color:var(--muted);margin:0 auto 52px;max-width:660px;line-height:1.7}
+
+/* 痛点 -> 解法 */
+.pain{background:linear-gradient(180deg,#fbfcff,#fff);padding:80px 0;border-top:1px solid var(--line)}
+.pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:980px;margin:0 auto}
+.pain-col{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:34px 30px;box-shadow:0 10px 30px rgba(22,27,38,.05)}
+.eyebrow{display:inline-block;font-size:13px;font-weight:700;letter-spacing:1px;padding:4px 12px;border-radius:999px;margin-bottom:16px}
+.pain-col .eyebrow{background:#fff0f0;color:#e0483b}
+.pain-solve .eyebrow{background:var(--accent-soft);color:var(--accent-2)}
+.pain-text{font-size:17px;line-height:1.8;color:#374151}
+.pain-list{list-style:none;margin-top:16px}
+.pain-list li{position:relative;padding-left:24px;margin-bottom:11px;font-size:15px;color:#374151;line-height:1.6}
+.pain-list li::before{content:"✓";position:absolute;left:0;color:var(--accent-2);font-weight:800}
+
+/* 数据条 */
+.stats{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center;padding:54px 0}
+.stats strong{display:block;font-size:38px;font-weight:800;line-height:1.1}
+.stats span{font-size:14px;opacity:.9;letter-spacing:1px}
+
+/* 核心功能 */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.feature-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:32px 26px;transition:.25s}
+.feature-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(22,27,38,.08);border-color:transparent}
+.feature-icon{width:58px;height:58px;display:flex;align-items:center;justify-content:center;font-size:30px;background:var(--accent-soft);border-radius:14px;margin-bottom:18px}
+.feature-card h3{font-size:19px;font-weight:700;margin-bottom:10px}
+.feature-card p{font-size:15px;color:var(--muted);line-height:1.75}
+
+/* 适用场景 */
+.scenes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.scene-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:34px 24px;text-align:center;transition:.25s}
+.scene-card:hover{transform:translateY(-6px);box-shadow:0 14px 34px rgba(22,27,38,.07);border-color:var(--accent)}
+.scene-emoji{font-size:46px;margin-bottom:14px}
+.scene-card h3{font-size:19px;font-weight:700;margin-bottom:8px}
+.scene-card p{font-size:14px;color:var(--muted);line-height:1.7}
+
+/* 下载 / CTA */
+.download-section{background:linear-gradient(135deg,var(--accent-2),var(--accent));color:#fff;text-align:center;padding:92px 0}
+.download-section h2{font-size:38px;font-weight:800;margin-bottom:12px}
+.download-section .tagline{font-size:18px;opacity:.95;margin-bottom:40px;letter-spacing:1px}
+.download-buttons{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+.download-btn{display:inline-flex;align-items:center;gap:12px;padding:16px 34px;border-radius:14px;font-size:16px;font-weight:600;background:#fff;color:var(--ink);transition:.25s;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.download-btn:hover{transform:translateY(-4px)}
+.download-btn .icon{font-size:26px}
+.download-btn .text small{display:block;font-size:12px;color:#8b90a0;font-weight:400}
+
+/* FAQ */
+.faq-wrapper{max-width:840px;margin:0 auto}
+.faq-item{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:14px;overflow:hidden;transition:.25s}
+.faq-item:hover{border-color:var(--accent)}
+.faq-question{padding:20px 24px;font-size:16px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.faq-question::after{content:"+";font-size:22px;color:var(--accent-2);transition:transform .3s}
+.faq-item.open .faq-question::after{transform:rotate(45deg)}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease;font-size:15px;color:var(--muted);line-height:1.8;padding:0 24px}
+.faq-item.open .faq-answer{padding:0 24px 22px;max-height:600px}
+
+/* 页脚 */
+footer{background:#0f1220;color:#aeb3c2;padding:52px 0 34px;text-align:center}
+.footer-brand{font-size:20px;font-weight:800;color:#fff;margin-bottom:8px}
+.footer-slogan{font-size:14px;margin-bottom:18px;letter-spacing:1px;opacity:.8}
+.copyright{font-size:13px;opacity:.6;border-top:1px solid #232838;padding-top:18px;margin-top:18px}
+
+@media(max-width:768px){
+  .hero{padding:66px 0 78px}.hero h1{font-size:34px}.hero-tag{font-size:18px}.section{padding:56px 0}
+  .section-title{font-size:26px}.pain-grid{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,1fr);gap:18px}
+  .features-grid,.scenes-grid{grid-template-columns:1fr}.download-section h2{font-size:28px}
 }
 """
 
 
 def build_landing(cfg):
     name = esc(cfg.get("name", "产品"))
+    desc = esc(cfg.get("description", ""))
+    tagline = esc(cfg.get("tagline", ""))
+    slogan = esc(cfg.get("slogan", ""))
+    category = esc(cfg.get("category", "应用"))
+    positioning = cfg.get("positioning", "")
+    pain_point = cfg.get("pain_point", "")
+    os_list = esc(cfg.get("os_list", cfg.get("platform", "")))
+    website = esc(cfg.get("website", ""))
+    year = esc(cfg.get("copyright_year", ""))
+    team = esc(cfg.get("team", ""))
+    email = esc(cfg.get("contact_email", ""))
+    rating = esc(cfg.get("rating_value", "—"))
+    rating_count = esc(cfg.get("rating_count", "0"))
+
     feats = "\n".join(
         '      <div class="feature-card">\n'
         '        <div class="feature-icon">%s</div>\n'
@@ -149,10 +234,10 @@ def build_landing(cfg):
     chans = cfg.get("channels", [])
     hero_btns = "\n".join(
         '      <a href="%s" class="%s" target="_blank" rel="noopener">\n'
-        '        <span style="font-size:22px;">%s</span>\n'
+        '        <span style="font-size:20px;">%s</span>\n'
         '        <span>%s</span>\n'
         '      </a>' % (esc(c.get("url", "#")), "btn-primary" if i == 0 else "btn-secondary",
-                      c.get("icon", "⬇"), esc(c.get("store", "下载")))
+                        c.get("icon", "⬇"), esc(c.get("store", "下载")))
         for i, c in enumerate(chans[:2])
     )
     dl_btns = "\n".join(
@@ -160,10 +245,31 @@ def build_landing(cfg):
         '        <span class="icon">%s</span>\n'
         '        <span class="text">%s<small>%s</small></span>\n'
         '      </a>' % (esc(c.get("url", "#")), c.get("icon", "⬇"),
-                      esc(c.get("store", "")), esc(c.get("note", "")))
+                        esc(c.get("store", "")), esc(c.get("note", "")))
         for c in chans
     )
     feat_titles = " · ".join(f.get("title", "") for f in cfg.get("features", [])[:5])
+    n_features = len(cfg.get("features", []))
+    n_scenarios = len(cfg.get("scenarios", []))
+
+    # 主题色（可选 accent），注入 CSS 变量
+    accent = str(cfg.get("accent", "")).strip()
+    if accent:
+        theme_style = ('<style>:root{--accent:%s;--accent-2:%s;--accent-soft:%s}</style>'
+                       % (accent, shade(accent, -0.18), shade(accent, 0.88)))
+    else:
+        theme_style = ""
+
+    # 痛点 -> 解法
+    pain_solve = esc(positioning) or desc
+    pain_list = "\n".join(
+        '          <li><b>%s</b> — %s</li>' % (esc(f.get("title", "")), esc(f.get("desc", "")))
+        for f in cfg.get("features", [])[:3]
+    )
+    nav = chans[0] if chans else {"url": "#", "store": "下载"}
+    nav_url = esc(nav.get("url", "#"))
+    nav_store = esc(nav.get("store", "下载"))
+
     app_ld = {
         "@context": "https://schema.org", "@type": "MobileApplication",
         "name": cfg.get("name", ""),
@@ -184,7 +290,7 @@ def build_landing(cfg):
                         "acceptedAnswer": {"@type": "Answer", "text": q.get("a", "")}} for q in faq],
     }
 
-    return """<!DOCTYPE html>
+    tpl = '''<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -196,7 +302,8 @@ def build_landing(cfg):
 <meta property="og:description" content="%(desc)s">
 <meta property="og:type" content="website">
 <link rel="canonical" href="%(website)s">
-<style>%(css)s</style>
+<style>__CSS__</style>
+%(theme_style)s
 <script type="application/ld+json">
 %(app_ld)s
 </script>
@@ -205,16 +312,53 @@ def build_landing(cfg):
 </script>
 </head>
 <body>
+<header class="nav">
+  <div class="container nav-inner">
+    <div class="brand"><span class="dot"></span>%(name)s</div>
+    <a class="nav-cta" href="%(nav_url)s" target="_blank" rel="noopener">%(nav_store)s ↗</a>
+  </div>
+</header>
 
 <section class="hero">
-  <div class="container">
+  <div class="hero-glow"></div>
+  <div class="container hero-inner">
+    <span class="badge">%(category)s</span>
     <h1>%(name)s</h1>
-    <div class="subtitle">%(tagline)s</div>
-    <p class="desc">%(desc)s</p>
-    <div class="hero-buttons">
+    <p class="hero-tag">%(tagline)s</p>
+    <p class="hero-desc">%(desc)s</p>
+    <div class="hero-cta">
 %(hero_btns)s
     </div>
-    <div class="slogan">%(slogan)s</div>
+    <p class="hero-trust">已支持 %(os_list)s · 评分 %(rating)s ★（%(rating_count)s 条评价）</p>
+  </div>
+</section>
+
+<section class="pain">
+  <div class="container">
+    <h2 class="section-title">你是否在为这件事发愁？</h2>
+    <p class="section-subtitle">%(name)s的存在，正是为了把这件难事变简单。</p>
+    <div class="pain-grid">
+      <div class="pain-col">
+        <span class="eyebrow">痛点</span>
+        <p class="pain-text">%(pain_point)s</p>
+      </div>
+      <div class="pain-col pain-solve">
+        <span class="eyebrow">解法</span>
+        <p class="pain-text">%(pain_solve)s</p>
+        <ul class="pain-list">
+%(pain_list)s
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="container stats-grid">
+    <div><strong>%(rating)s</strong><span>用户评分</span></div>
+    <div><strong>%(rating_count)s+</strong><span>真实评价</span></div>
+    <div><strong>%(n_features)s</strong><span>核心能力</span></div>
+    <div><strong>%(n_scenarios)s</strong><span>适用场景</span></div>
   </div>
 </section>
 
@@ -240,7 +384,7 @@ def build_landing(cfg):
 
 <section class="download-section">
   <div class="container">
-    <h2>立即使用 %(name)s</h2>
+    <h2>立即开始使用 %(name)s</h2>
     <p class="tagline">%(slogan)s</p>
     <div class="download-buttons">
 %(dl_btns)s
@@ -279,26 +423,25 @@ document.querySelectorAll('.faq-question').forEach(function(q){
 
 </body>
 </html>
-""" % {
-        "name": name,
-        "tagline": esc(cfg.get("tagline", "")),
-        "desc": esc(cfg.get("description", "")),
-        "kws": esc(",".join(kw(cfg, "brand") + kw(cfg, "core") + kw(cfg, "scene"))),
-        "website": esc(cfg.get("website", "")),
-        "css": LANDING_CSS,
+'''
+    kws = esc(",".join(kw(cfg, "brand") + kw(cfg, "core") + kw(cfg, "scene")))
+    html = tpl % {
+        "name": name, "tagline": tagline, "desc": desc, "website": website,
+        "theme_style": theme_style, "category": category, "os_list": os_list,
+        "rating": rating, "rating_count": rating_count, "pain_point": esc(pain_point),
+        "pain_solve": pain_solve, "pain_list": pain_list,
+        "n_features": n_features, "n_scenarios": n_scenarios, "feat_titles": esc(feat_titles),
+        "feats": feats, "scenes": scenes, "dl_btns": dl_btns, "faq_html": faq_html,
+        "hero_btns": hero_btns, "slogan": slogan, "year": year, "team": team,
+        "email": email, "kws": kws,
         "app_ld": json.dumps(app_ld, ensure_ascii=False, indent=2),
         "faq_ld": json.dumps(faq_ld, ensure_ascii=False, indent=2),
-        "hero_btns": hero_btns,
-        "slogan": esc(cfg.get("slogan", "")),
-        "feat_titles": esc(feat_titles),
-        "feats": feats,
-        "scenes": scenes,
-        "dl_btns": dl_btns,
-        "faq_html": faq_html,
-        "year": esc(cfg.get("copyright_year", "")),
-        "team": esc(cfg.get("team", "")),
-        "email": esc(cfg.get("contact_email", "")),
+        "nav_url": nav_url, "nav_store": nav_store,
     }
+    html = html.replace("__CSS__", LANDING_CSS)
+    return html
+
+
 
 
 # ---------------------------------------------------------------- ASO 元数据
