@@ -231,7 +231,7 @@ def build_landing(cfg):
 <section class="section section-alt">
   <div class="container">
     <h2 class="section-title">适用场景</h2>
-    <p class="section-subtitle">%(name)s，陪你记录每一个重要节点</p>
+    <p class="section-subtitle">%(name)s，在真实使用场景中为你所用</p>
     <div class="scenes-grid">
 %(scenes)s
     </div>
@@ -318,8 +318,8 @@ def build_aso(cfg):
     backkw = ",".join(dict.fromkeys(kw(cfg, "core") + kw(cfg, "scene") + kw(cfg, "longtail") + kw(cfg, "harmony")))[:100]
     # 描述首段必须自然带上 P0 核心词，否则搜索与 AI 抽取都抓不到重点
     lead = "%s（%s）是一款%s，核心能力包括%s%s。" % (
-        name, tagline, cfg.get("positioning", "应用"),
-        "、".join(core) or "事件记录与提醒",
+        name, tagline, cfg.get("positioning", "产品"),
+        "、".join(core) or "多项核心能力",
         ("，覆盖%s等场景" % "、".join(scene_titles)) if scene_titles else "",
     )
     long_desc = "%s\n\n%s\n\n%s\n\n%s" % (
@@ -458,77 +458,86 @@ def build_content(cfg):
     scenes = cfg.get("scenarios", [])
     faq = cfg.get("faq", [])
     comp = cfg.get("competitors", [])
-    feat_lines = [("- %s：%s" % (f.get("title", ""), f.get("desc", ""))) for f in feats]
-    scene_lines = [("- %s：%s" % (s.get("title", ""), s.get("desc", ""))) for s in scenes]
+    positioning = cfg.get("positioning", "产品")
+    category = cfg.get("category", positioning)
+    pain = cfg.get("pain_point", "")
+    feat_lines = ["- %s：%s" % (f.get("title", ""), f.get("desc", "")) for f in feats]
+    scene_lines = ["- %s：%s" % (s.get("title", ""), s.get("desc", "")) for s in scenes]
     qa = ["**%s**\n%s" % (q.get("q", ""), q.get("a", "")) for q in faq]
+    feat_bullets = "\n".join("%s %s：%s" % (f.get("icon", "🔹"), f.get("title", ""), f.get("desc", "")) for f in feats) or "🔹 核心能力突出，直击用户真实痛点"
+    comp_lines = ["- 与 %s 相比：%s" % (x, tagline) for x in comp] if comp else \
+        ["- 与同类方案相比：%s 在%s上更具优势" % (name, "、".join(f.get("title", "") for f in feats[:2]) or "核心体验")]
+    scene_titles = [s.get("title", "") for s in scenes]
+    os_info = cfg.get("os_list", cfg.get("platform", ""))
+    harmony_kw = kw(cfg, "harmony")
+
+    if harmony_kw or ("鸿蒙" in str(os_info) or "HarmonyOS" in str(os_info)):
+        tech_angle = "%s 基于 HarmonyOS 原生开发，结合%s，把核心能力暴露到系统级入口。" % (
+            name, "、".join(harmony_kw) or "服务卡片")
+    else:
+        tech_angle = "%s 以%s为运行环境，重点打磨核心链路与稳定性。" % (name, os_info or "目标平台")
 
     blocks = []
+    # 1 知乎
     blocks.append("\n".join([
         "# 多平台文案包 · %s" % name, "",
-        "> 生成时间：%s ｜ 每条已按平台调性分开写，可直接复制粘贴。" % TODAY, "",
+        "> 生成时间：%s ｜ 已按平台调性分开写，可直接复制粘贴。" % TODAY, "",
         "---", "", "## 1. 知乎（问答式长文，结论前置 + 分层标题）", "",
-        "### 标题", "%s 值得用吗？鸿蒙用户的事件提醒方案实测" % name, "",
-        "### 正文", "", "**结论前置**：%s。%s" % (tagline, desc), "",
+        "### 标题", "%s 值得用吗？真实体验与方案实测" % name, "",
+        "### 正文", "", "**结论前置**：%s。%s" % (tagline or desc, desc), "",
         "**它解决了什么问题**", "",
-        "在手机上记录重要日子这件事，问题从来不是「记不下来」，而是「记了但看不着」。%s 把事件放在鸿蒙服务卡片上，抬眼即可见。" % name, "",
+        (pain or "在%s这件事上，用户往往面临「想用却用不顺手」的困境，%s 的思路值得一看。" % (category, name)), "",
         "**核心功能**", ""] + feat_lines + ["", "**适用场景**", ""] + scene_lines + ["", "**常见问题**", ""] + qa + ["", "---", ""]))
 
+    # 2 小红书
     blocks.append("\n".join([
         "## 2. 小红书（短笔记，痛点开头 + emoji + 标签）", "",
-        "### 标题", "😭终于把重要日子都记明白了｜鸿蒙党狂喜", "",
+        "### 标题", "😭终于把这件事搞定了｜%s 真香" % name, "",
         "### 正文", "",
-        "以前重要日子全靠脑记，结果总在最后一刻才想起来…",
-        "",
-        "直到用了 %s 👇" % name,
-        "",
-        "🧩 服务卡片直接放桌面，还剩多少天抬眼就见",
-        "🔔 提前 30 天就开始提醒，不慌",
-        "🎨 主题随便换，记录也要好看",
-        "🔄 倒数和正数都能记，纪念日超合适",
-        "",
-        "鸿蒙用户真的可以试试～",
-        "",
-        "### 标签", "#鸿蒙 #HarmonyOS #时间管理 #效率工具 #纪念日 #桌面小组件", "", "---", ""]))
+        (pain or "以前%s相关的需求总被将就，结果总差一口气…" % category),
+        "", "直到用了 %s 👇" % name, "", feat_bullets, "",
+        "%s，真的可以试试～" % (tagline or "好东西值得被看见"), "",
+        "### 标签", "#%s #好物分享 #效率提升 #种草 #实用工具" % name, "", "---", ""]))
 
+    # 3 头条
     blocks.append("\n".join([
         "## 3. 今日头条（资讯式，分段短句）", "",
-        "### 标题", "%s 上线：把重要日子放进鸿蒙服务卡片" % name, "",
-        "### 正文", "",
-        desc, "",
-        "据介绍，%s 覆盖了考试、纪念日、职场节点、宝宝成长等常见场景，并提供多级智能提醒。" % name,
-        "",
-        "与传统记录类应用不同，它把最近的事件直接呈现在鸿蒙服务卡片与负一屏上，用户无需打开应用即可查看剩余天数。", "",
-        "目前该应用已在华为应用市场提供下载。", "", "---", ""]))
+        "### 标题", "%s 上线：%s" % (name, tagline or "一款值得关注的新品"), "",
+        "### 正文", "", desc, "",
+        "据介绍，%s 覆盖了%s等常见场景，并提供贴合需求的解决方案。" % (name, "、".join(scene_titles[:3]) or category), "",
+        "与传统同类方案不同，%s 在%s上形成了自己的差异化。" % (name, "、".join(f.get("title", "") for f in feats[:2]) or "核心体验"), "",
+        "目前该%s已在对应渠道提供。" % positioning, "", "---", ""]))
 
+    # 4 百家号
     blocks.append("\n".join([
         "## 4. 百家号（偏科普，先说概念再说产品）", "",
-        "### 标题", "什么是事件记录？鸿蒙应用 %s 给出了一个答案" % name, "",
+        "### 标题", "什么是%s？%s 给出了一个答案" % (category, name), "",
         "### 正文", "",
-        "「事件记录」指的是把生活中需要被记住的时间节点集中管理，并在合适的时间提醒你。", "",
-        "这类工具的价值在于两点：一是降低记录成本，二是提高提醒到达率。", "",
-        "%s 的做法是把事件放到鸿蒙服务卡片上，用系统级入口解决「看不着」的问题。" % name, "",
+        "「%s」指的是围绕%s形成的一类专业解决方案。" % (category, category), "",
+        "这类方案的价值在于两点：一是降低使用门槛，二是提升实际效果。", "",
+        "%s 的做法是%s。" % (name, (pain or "把%s的关键环节做到极致" % category)), "",
         "**核心能力**", ""] + feat_lines + ["", "---", ""]))
 
+    # 5 华为开发者社区
     blocks.append("\n".join([
-        "## 5. 华为开发者社区（技术视角，强调鸿蒙原生）", "",
-        "### 标题", "%s 的技术实践：基于 HarmonyOS 原生的事件提醒应用" % name, "",
+        "## 5. 华为开发者社区（技术视角，强调生态适配）", "",
+        "### 标题", "%s 的技术实践：面向鸿蒙生态的%s" % (name, positioning), "",
         "### 正文", "",
-        "**背景**：事件记录类应用的核心体验瓶颈在于「触达」，而非「存储」。", "",
-        "**方案**：%s 基于 HarmonyOS 原生开发，使用服务卡片把最近事件暴露到桌面与负一屏；提醒链路走系统级通知，保证到达率。" % name, "",
-        "**功能构成**", ""] + feat_lines + ["",
-        "**适配说明**", "",
-        "- 系统：%s" % cfg.get("os_list", cfg.get("platform", "")),
-        "- 生态：%s" % ("、".join(kw(cfg, "harmony")) or "鸿蒙原生"), "", "---", ""]))
+        "**背景**：%s 的核心体验瓶颈在于「触达」与「留存」，而非功能堆砌。" % name, "",
+        "**方案**：%s" % tech_angle, "",
+        "**功能构成**", ""] + feat_lines + ["", "**适配说明**", "",
+        "- 系统：%s" % os_info, "- 生态：%s" % ("、".join(harmony_kw) or "通用生态"), "", "---", ""]))
 
+    # 6 CSDN
     blocks.append("\n".join([
         "## 6. CSDN（开发者视角，问题—方案—结论）", "",
-        "### 标题", "鸿蒙应用 %s 开发要点与上架记录" % name, "",
+        "### 标题", "%s 开发要点与上架记录" % name, "",
         "### 正文", "",
-        "1. **要解决的问题**：重要日子的提醒触达率低。",
-        "2. **技术选型**：HarmonyOS 原生 + 服务卡片 + 系统通知。",
-        "3. **上架流程**：AppGallery Connect 配置 → 资质材料 → 提交审核。",
+        "1. **要解决的问题**：%s" % (pain or "%s 在%s场景下体验不佳" % (category, category)),
+        "2. **技术选型**：%s" % (os_info or "主流技术栈"),
+        "3. **上架流程**：对应应用市场配置 → 资质材料 → 提交审核。",
         "4. **优化重点**：标题与描述的关键词布局直接影响搜索曝光。", "",
-        "**对比同类方案**", ""] + ["- 与 %s 相比：%s" % (c, tagline) for c in comp] + ["", "---", ""]))
+        "**对比同类方案**", ""] + comp_lines + ["", "---", ""]))
 
     blocks.append("\n".join([
         "## 通投内容规范（所有平台通用）", "",
@@ -539,7 +548,6 @@ def build_content(cfg):
         "- 结尾 FAQ：至少 3 条常见问答",
         "- 品牌统一：全平台使用同一产品名、同一 Slogan、同一官网链接", ""]))
     return "\n".join(blocks)
-
 
 # ---------------------------------------------------------------- 分发排期
 def build_distribution(cfg):

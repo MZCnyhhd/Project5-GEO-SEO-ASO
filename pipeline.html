@@ -142,25 +142,26 @@ footer a{color:var(--brand);font-weight:600}
       <div class="grid2">
         <div>
           <label>产品名称</label>
-          <input id="f_name" value="记录事件">
+          <input id="f_name" value="悦动运动">
           <label>一句话定位（副标题）</label>
-          <input id="f_tagline" value="重要日子，抬眼可见">
+          <input id="f_tagline" value="科学运动，轻松坚持">
           <label>Slogan</label>
-          <input id="f_slogan" value="记录每一个重要时刻">
+          <input id="f_slogan" value="让运动成为习惯">
           <label>平台 / 系统</label>
           <input id="f_platform" value="HarmonyOS">
           <label>应用类别</label>
-          <input id="f_category" value="UtilitiesApplication">
+          <input id="f_category" value="运动健康应用">
           <label>产品定位（一句话）</label>
-          <input id="f_positioning" value="面向鸿蒙用户的多场景事件记录与提醒工具">
+          <input id="f_positioning" value="面向鸿蒙用户的智能运动健康应用">
+          <input id="f_pain_point" value="办了健身卡却总不去，下载了 App 也难坚持——运动是计划容易、坚持太难。" placeholder="一句话痛点（用户要解决的问题）">
         </div>
         <div>
           <label>产品描述</label>
-          <textarea id="f_description" rows="4">一款为鸿蒙用户打造的事件记录与提醒工具，覆盖考试冲刺、纪念日、项目节点、宝宝成长等多类场景，多级智能提醒配合桌面服务卡片，重要日子抬眼可见。</textarea>
+          <textarea id="f_description" rows="4">一款为鸿蒙用户打造的运动健康应用，覆盖减脂、跑步、居家健身、体态管理等场景，AI 课程与运动数据全程陪伴，让每一次运动都有反馈、能坚持。</textarea>
           <label>目标 AI 引擎（逗号分隔）</label>
           <input id="f_engines" value="小艺, 华为搜索, 豆包, DeepSeek">
           <label>竞品（逗号分隔）</label>
-          <input id="f_competitors" value="倒数日, Days Matter, 小日子">
+          <input id="f_competitors" value="Keep, 悦跑圈, 小米运动">
           <label>官网 / 联系方式</label>
           <input id="f_website" value="https://example.com">
           <input id="f_email" value="contact@example.com" style="margin-top:6px">
@@ -168,25 +169,24 @@ footer a{color:var(--brand);font-weight:600}
       </div>
 
       <label>核心功能（每行：图标|标题|描述）</label>
-      <textarea id="f_features" rows="5">🎯|多场景事件模板|内置考试冲刺、纪念日、项目节点、宝宝成长等 20+ 精选模板，选好场景填上日期就能用。
-🧩|服务卡片常驻桌面|鸿蒙服务卡片把最近的事件放在桌面与负一屏，剩余天数抬眼可见。
-🔔|多级智能提醒|支持提前 30 天 / 7 天 / 1 天 / 1 小时多级提醒，重要日子不遗漏。
-🎨|自定义主题与皮肤|100+ 渐变背景与数字皮肤自由搭配，打造属于你的记录美学。
-🔄|倒数正数双向记录|既能记录“还有多久”，也能回溯“已经过了多久”。</textarea>
+      <textarea id="f_features" rows="5">🏃|智能跑步计划|根据目标与体能生成个性化跑步方案，自动调节配速与里程。
+📊|运动数据看板|步频、心率、消耗、训练负荷一屏掌握，趋势一目了然。
+🤝|好友打卡社区|和好友组队打卡，互相激励，坚持不再只靠意志力。
+🧘|居家健身课程|零器械训练视频，跟着练就能动，适合碎片化时间。</textarea>
 
       <label>适用场景（每行：图标|标题|描述）</label>
-      <textarea id="f_scenarios" rows="4">📚|备考冲刺|中考、高考、考研、考证节点一键设置，复习进度一目了然。
-💍|纪念日与恋爱天数|相识、在一起、领证、婚礼等节点双向记录。
-💼|项目与职场节点|项目上线、试用期转正、年假、发薪日，多级提醒不再手忙脚乱。
-👶|宝宝成长里程碑|出生倒数、满月、百天、周岁，见证每一天的成长。</textarea>
+      <textarea id="f_scenarios" rows="4">🔥|减脂塑形|想瘦又怕坚持不下来，用课程+数据闭环把减脂变成日常。
+🏃|跑步训练|备战马拉松或日常刷距离，智能计划帮你稳步提升。
+🏠|居家健身|没时间去健身房，客厅就是训练场，零器械也能练。
+💺|久坐体态|改善圆肩驼背，碎片化拉伸提醒，久坐人群福音。</textarea>
 
       <label>常见问题 FAQ（每行：问题|答案，至少 5 条，会同步进 FAQPage 结构化数据）</label>
-      <textarea id="f_faq" rows="6">记录事件支持哪些设备？|记录事件基于 HarmonyOS 原生开发，支持鸿蒙手机、平板等多设备使用，数据可通过华为账号同步。
-记录事件的数据安全吗？|所有事件数据支持云端备份，登录同一账号即可多设备同步，换机重装都不会丢失。
-记录事件有广告吗？|承诺纯净无广告体验，不插入开屏、插屏或信息流广告，基础功能免费。
-可以记录多少个事件？|事件数量无上限，支持分类与标签管理，可按多个维度筛选查看。
-桌面服务卡片不更新怎么办？|请长按桌面确认卡片已添加，并在系统设置中允许应用后台运行；如仍未刷新可重启设备。
-如何获取最新版本？|可在华为应用市场搜索「记录事件」查看更新，也可通过官网获取版本信息。</textarea>
+      <textarea id="f_faq" rows="6">悦动运动支持哪些设备？|悦动运动基于 HarmonyOS 原生开发，支持鸿蒙手机、手表等多设备使用，数据可通过华为账号同步。
+我的运动数据安全吗？|所有运动数据支持云端备份，登录同一账号即可多设备同步，换机重装都不会丢失。
+悦动运动有广告吗？|承诺纯净无广告体验，基础课程免费，无开屏与信息流广告。
+进阶课程需要额外付费吗？|基础课程免费，进阶训练营按需订阅，可随时取消。
+手表端能离线记录吗？|支持离线记录，联网后自动同步，户外跑步不断联。
+如何获取最新版本？|可在华为应用市场搜索「悦动运动」查看更新，也可通过官网获取版本信息。</textarea>
 
       <label>下载渠道（每行：商店|链接|说明）</label>
       <textarea id="f_channels" rows="3">华为应用市场|https://appgallery.huawei.com/app/XXXXXXX|鸿蒙主分发渠道
@@ -196,13 +196,13 @@ footer a{color:var(--brand);font-weight:600}
       <label>关键词（逗号分隔；鸿蒙生态词用于抢占鸿蒙适配权重）</label>
       <div class="grid2">
         <div>
-          <input id="f_kw_brand" value="记录事件" placeholder="品牌词">
-          <input id="f_kw_core" value="鸿蒙事件提醒, 事件记录工具, 倒计时提醒, 重要日子提醒" style="margin-top:6px" placeholder="核心词">
-          <input id="f_kw_scene" value="考研倒计时, 纪念日记录, 宝宝成长记录, 项目上线倒计时, 生日提醒" style="margin-top:6px" placeholder="场景词">
+          <input id="f_kw_brand" value="悦动运动" placeholder="品牌词">
+          <input id="f_kw_core" value="鸿蒙运动健康, 运动记录App, 智能跑步计划, 居家健身课程" style="margin-top:6px" placeholder="核心词">
+          <input id="f_kw_scene" value="减脂塑形, 跑步训练计划, 居家健身, 久坐体态改善" style="margin-top:6px" placeholder="场景词">
         </div>
         <div>
-          <input id="f_kw_competitor" value="记录事件和倒数日哪个好, 记录事件 vs Days Matter" placeholder="对比词">
-          <input id="f_kw_avoid" value="事件记录 App 怎么选, 重要日子数据会不会丢, 隐私安全的事件提醒工具" style="margin-top:6px" placeholder="避坑词">
+          <input id="f_kw_competitor" value="悦动运动 和 Keep 哪个好, 悦动运动 vs 悦跑圈" placeholder="对比词">
+          <input id="f_kw_avoid" value="运动App 怎么选, 运动数据会丢吗, 隐私安全的运动记录工具" style="margin-top:6px" placeholder="避坑词">
           <input id="f_kw_harmony" value="鸿蒙原生, 元服务, 服务卡片, 鸿蒙生态应用" style="margin-top:6px" placeholder="鸿蒙生态词">
         </div>
       </div>
@@ -307,7 +307,7 @@ function buildCfg(){
   return {
     name:val("f_name"), slug:"", tagline:val("f_tagline"), slogan:val("f_slogan"),
     platform:val("f_platform"), os_list:val("f_platform"), category:val("f_category"),
-    positioning:val("f_positioning"), description:val("f_description"),
+    positioning:val("f_positioning"), description:val("f_description"), pain_point:val("f_pain_point"),
     price:"0", currency:"CNY", rating_value:"4.8", rating_count:"3260",
     website:val("f_website"), contact_email:val("f_email"),
     team:val("f_name")+"团队", copyright_year:String(new Date().getFullYear()),
@@ -378,7 +378,7 @@ footer .copyright{font-size:13px;opacity:.7;border-top:1px solid #333;padding-to
 function genLanding(c){
   const core = kw(c,"core");
   const sceneT = c.scenarios.map(s=>s.title);
-  const lead = `${c.name}（${c.tagline}）是一款${c.positioning}，核心能力包括${core.join("、")||"事件记录与提醒"}${sceneT.length?("，覆盖"+sceneT.join("、")+"等场景"):""}。`;
+  const lead = `${c.name}（${c.tagline}）是一款${c.positioning}，核心能力包括${core.join("、")||"多项核心能力"}${sceneT.length?("，覆盖"+sceneT.join("、")+"等场景"):""}。`;
   const appLd = {"@context":"https://schema.org","@type":"MobileApplication","name":c.name,
     "applicationCategory":c.category,"operatingSystem":c.os_list,
     "offers":{"@type":"Offer","price":c.price,"priceCurrency":c.currency},
@@ -434,7 +434,7 @@ ${JSON.stringify(faqLd,null,2)}
 <section class="section section-alt">
   <div class="container">
     <h2 class="section-title">适用场景</h2>
-    <p class="section-subtitle">${esc(c.name)}，陪你记录每一个重要节点</p>
+    <p class="section-subtitle">${esc(c.name)}，在真实使用场景中为你所用</p>
     <div class="scenes-grid">
       ${scenes}
     </div>
@@ -483,7 +483,17 @@ function genContent(c){
   const F = c.features.map(f=>`- ${f.title}：${f.desc}`).join("\n");
   const S = c.scenarios.map(s=>`- ${s.title}：${s.desc}`).join("\n");
   const Q = c.faq.map(f=>`**${f.q}**\n${f.a}`).join("\n\n");
-  const CP = c.competitors.map(x=>`- 与 ${x} 相比：${c.tagline}`).join("\n");
+  const CP = c.competitors.length ? c.competitors.map(x=>`- 与 ${x} 相比：${c.tagline}`).join("\n")
+    : `- 与同类方案相比：${c.name} 在${(c.features.slice(0,2).map(f=>f.title).join("、")||"核心体验")}上更具优势`;
+  const cat = c.category || c.positioning;
+  const pain = c.pain_point || "";
+  const sceneT = c.scenarios.map(s=>s.title);
+  const feats = c.features.length ? c.features.map(f=>`${f.icon||"🔹"} ${f.title}，${f.desc}`).join("\n") : "🔹 核心能力突出，直击用户真实痛点";
+  const osi = c.os_list || c.platform;
+  const hm = kw(c,"harmony");
+  const techAngle = (hm.length || /鸿蒙|HarmonyOS/.test(osi||""))
+    ? `${c.name} 基于 HarmonyOS 原生开发，结合${hm.join("、")||"服务卡片"}，把核心能力暴露到系统级入口。`
+    : `${c.name} 以${osi||"目标平台"}为运行环境，重点打磨核心链路与稳定性。`;
   return `# 多平台文案包 · ${c.name}
 
 > 生成时间：${new Date().toISOString().slice(0,10)} ｜ 已按平台调性分开写，可直接复制粘贴。
@@ -492,9 +502,13 @@ function genContent(c){
 
 ## 1. 知乎（问答式长文，结论前置 + 分层标题）
 
-**标题**：${c.name} 值得用吗？${c.platform} 用户的事件提醒方案实测
+**标题**：${c.name} 值得用吗？真实体验与方案实测
 
-**结论前置**：${c.tagline}。${c.description}
+**结论前置**：${c.tagline||c.description}。${c.description}
+
+**它解决了什么问题**
+
+${pain || `在${cat}这件事上，用户往往面临「想用却用不顺手」的困境，${c.name} 的思路值得一看。`}
 
 **核心功能**
 ${F}
@@ -509,61 +523,61 @@ ${Q}
 
 ## 2. 小红书（短笔记，痛点开头 + emoji + 标签）
 
-**标题**：😭终于把重要日子都记明白了｜${c.platform} 党狂喜
+**标题**：😭终于把这件事搞定了｜${c.name} 真香
 
-以前重要日子全靠脑记，结果总在最后一刻才想起来…
+${pain || `以前${cat}相关的需求总被将就，结果总差一口气…`}
 
 直到用了 ${c.name} 👇
 
-${c.features.slice(0,4).map(f=>`${f.icon} ${f.title}，${f.desc}`).join("\n")}
+${feats}
 
-${c.platform} 用户真的可以试试～
+${c.tagline||"好东西值得被看见"}，真的可以试试～
 
-**标签**：#${c.platform} #HarmonyOS #时间管理 #效率工具 #纪念日
+**标签**：#${c.name} #好物分享 #效率提升 #种草 #实用工具
 
 ---
 
 ## 3. 今日头条（资讯式，分段短句）
 
-**标题**：${c.name} 上线：把重要日子放进桌面服务卡片
+**标题**：${c.name} 上线：${c.tagline||"一款值得关注的新品"}
 
 ${c.description}
 
-据介绍，${c.name} 覆盖了${c.scenarios.map(s=>s.title).join("、")}等常见场景，并提供多级智能提醒。
+据介绍，${c.name} 覆盖了${sceneT.slice(0,3).join("、")||cat}等常见场景，并提供贴合需求的解决方案。
 
-与传统记录类应用不同，它把最近的事件直接呈现在系统卡片与负一屏上，用户无需打开应用即可查看剩余天数。
+与传统同类方案不同，${c.name} 在${(c.features.slice(0,2).map(f=>f.title).join("、")||"核心体验")}上形成了自己的差异化。
 
-目前该应用已在${c.channels.map(x=>x.store).slice(0,2).join("、")}提供下载。
+目前该${c.positioning}已在对应渠道提供。
 
 ---
 
 ## 4. 百家号（偏科普，先说概念再说产品）
 
-**标题**：什么是事件记录？${c.platform} 应用 ${c.name} 给出了一个答案
+**标题**：什么是${cat}？${c.platform} 应用 ${c.name} 给出了一个答案
 
-「事件记录」指的是把生活中需要被记住的时间节点集中管理，并在合适的时间提醒你。这类工具的价值在于两点：降低记录成本、提高提醒到达率。
+「${cat}」指的是围绕${cat}形成的一类专业解决方案。这类方案的价值在于两点：降低使用门槛、提升实际效果。
 
-${c.name} 的做法是把事件放到系统服务卡片上，用系统级入口解决「看不着」的问题。
+${c.name} 的做法是${pain || `把${cat}的关键环节做到极致`}。
 
 **核心能力**
 ${F}
 
 ---
 
-## 5. 华为开发者社区（技术视角，强调鸿蒙原生）
+## 5. 华为开发者社区（技术视角，强调生态适配）
 
-**标题**：${c.name} 的技术实践：基于 ${c.platform} 原生的事件提醒应用
+**标题**：${c.name} 的技术实践：面向鸿蒙生态的${c.positioning}
 
-**背景**：事件记录类应用的核心体验瓶颈在于「触达」，而非「存储」。
+**背景**：${c.name} 的核心体验瓶颈在于「触达」与「留存」，而非功能堆砌。
 
-**方案**：${c.name} 基于 ${c.platform} 原生开发，使用服务卡片把最近事件暴露到桌面与负一屏；提醒链路走系统级通知，保证到达率。
+**方案**：${techAngle}
 
 **功能构成**
 ${F}
 
 **适配说明**
-- 系统：${c.os_list}
-- 生态：${kw(c,"harmony").join("、")||"鸿蒙原生"}
+- 系统：${osi}
+- 生态：${hm.join("、")||"通用生态"}
 
 ---
 
@@ -571,9 +585,9 @@ ${F}
 
 **标题**：${c.platform} 应用 ${c.name} 开发要点与上架记录
 
-1. **要解决的问题**：重要日子的提醒触达率低。
-2. **技术选型**：${c.platform} 原生 + 服务卡片 + 系统通知。
-3. **上架流程**：AppGallery Connect 配置 → 资质材料 → 提交审核。
+1. **要解决的问题**：${pain || `${cat} 在${cat}场景下体验不佳`}
+2. **技术选型**：${osi||"主流技术栈"}
+3. **上架流程**：对应应用市场配置 → 资质材料 → 提交审核。
 4. **优化重点**：标题与描述的关键词布局直接影响搜索曝光。
 
 **对比同类方案**
@@ -591,14 +605,13 @@ ${CP}
 - 品牌统一：全平台使用同一产品名、同一 Slogan、同一官网链接
 `;
 }
-
 /* ---------------- ASO ---------------- */
 function genASO(c){
   const core = kw(c,"core"), sceneT = c.scenarios.map(s=>s.title);
   const title = `${c.name} - ${c.tagline}`;
   const short = core.length ? `${c.tagline} ｜ ${core.slice(0,2).join("、")}` : c.tagline;
   const backkw = Array.from(new Set([].concat(core,kw(c,"scene"),kw(c,"longtail"),kw(c,"harmony")))).join(",").slice(0,100);
-  const lead = `${c.name}（${c.tagline}）是一款${c.positioning}，核心能力包括${core.join("、")||"事件记录与提醒"}${sceneT.length?("，覆盖"+sceneT.join("、")+"等场景"):""}。`;
+  const lead = `${c.name}（${c.tagline}）是一款${c.positioning}，核心能力包括${core.join("、")||"多项核心能力"}${sceneT.length?("，覆盖"+sceneT.join("、")+"等场景"):""}。`;
   const longd = `${lead}\n\n${c.description}\n\n核心功能：${c.features.map(f=>f.title).join("；")}\n\n适用场景：${sceneT.join("；")}`;
   const p0 = allP0(c), head = longd.slice(0,200), hit = p0.filter(w=>head.includes(w));
   const row = (l,v,lim)=>{ const n=chars(v); return `| ${l} | ${String(v).replace(/\n/g,"<br>")} | ${n} | ${lim} | ${n<=lim?"✅":"❌ 超限"} |`; };
