@@ -183,10 +183,58 @@ footer{background:#0f1220;color:#aeb3c2;padding:52px 0 34px;text-align:center}
 .footer-slogan{font-size:14px;margin-bottom:18px;letter-spacing:1px;opacity:.8}
 .copyright{font-size:13px;opacity:.6;border-top:1px solid #232838;padding-top:18px;margin-top:18px}
 
+/* 使用流程 */
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:980px;margin:0 auto}
+.step{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:36px 28px;text-align:center;transition:.25s}
+.step:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(22,27,38,.08);border-color:transparent}
+.step-num{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.step h3{font-size:19px;font-weight:700;margin-bottom:10px}
+.step p{font-size:14px;color:var(--muted);line-height:1.7}
+
+/* 差异化卖点 */
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px}
+.why-card{background:var(--alt);border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;transition:.25s}
+.why-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(22,27,38,.07);border-color:var(--accent)}
+.why-icon{width:52px;height:52px;display:flex;align-items:center;justify-content:center;font-size:26px;background:#fff;border-radius:14px;margin-bottom:16px;box-shadow:0 6px 16px rgba(22,27,38,.06)}
+.why-card h3{font-size:18px;font-weight:700;margin-bottom:8px}
+.why-card p{font-size:14px;color:var(--muted);line-height:1.7}
+
+/* 产品界面示意 */
+.showcase{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;max-width:1040px;margin:0 auto}
+.showcase-copy h2{font-size:32px;font-weight:800;margin-bottom:16px;letter-spacing:.5px}
+.showcase-copy p{font-size:16px;color:var(--muted);line-height:1.85;margin-bottom:18px}
+.showcase-list{list-style:none;margin-top:8px}
+.showcase-list li{position:relative;padding-left:26px;margin-bottom:12px;font-size:15px;color:#374151;line-height:1.6}
+.showcase-list li::before{content:"✓";position:absolute;left:0;color:var(--accent-2);font-weight:800}
+.phone{width:280px;margin:0 auto;background:#0f1220;border-radius:38px;padding:14px;box-shadow:0 30px 60px rgba(22,27,38,.25)}
+.phone-notch{width:120px;height:22px;background:#0f1220;border-radius:0 0 16px 16px;margin:0 auto 14px;position:relative}
+.phone-notch::after{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:54px;height:8px;background:#2a2f44;border-radius:0 0 8px 8px}
+.phone-screen{background:linear-gradient(160deg,var(--accent),var(--accent-2));border-radius:26px;padding:26px 20px;color:#fff;min-height:420px}
+.phone-brand{font-size:13px;opacity:.9;letter-spacing:1px}
+.phone-name{font-size:22px;font-weight:800;margin:6px 0 4px}
+.phone-tag{font-size:13px;opacity:.9;margin-bottom:20px}
+.phone-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.chip{background:rgba(255,255,255,.18);padding:6px 12px;border-radius:999px;font-size:12px;font-weight:600}
+.phone-bars{display:flex;align-items:flex-end;gap:10px;height:120px;padding:0 4px}
+.bar{flex:1;background:rgba(255,255,255,.85);border-radius:8px 8px 4px 4px}
+.phone-foot{margin-top:18px;font-size:12px;opacity:.85;text-align:center}
+
+/* 用户评价 */
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.review-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px 26px;transition:.25s}
+.review-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(22,27,38,.08);border-color:transparent}
+.review-stars{color:#f5a623;font-size:16px;letter-spacing:2px;margin-bottom:12px}
+.review-quote{font-size:15px;line-height:1.8;color:#374151;margin-bottom:18px}
+.review-author{display:flex;align-items:center;gap:12px}
+.avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:16px}
+.review-name{font-size:15px;font-weight:700}
+.review-role{font-size:13px;color:var(--muted)}
+
 @media(max-width:768px){
   .hero{padding:66px 0 78px}.hero h1{font-size:34px}.hero-tag{font-size:18px}.section{padding:56px 0}
   .section-title{font-size:26px}.pain-grid{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,1fr);gap:18px}
   .features-grid,.scenes-grid{grid-template-columns:1fr}.download-section h2{font-size:28px}
+  .steps-grid{grid-template-columns:1fr}.showcase{grid-template-columns:1fr;gap:32px}.showcase-copy h2{font-size:26px}
 }
 """
 
@@ -269,6 +317,81 @@ def build_landing(cfg):
     nav = chans[0] if chans else {"url": "#", "store": "下载"}
     nav_url = esc(nav.get("url", "#"))
     nav_store = esc(nav.get("store", "下载"))
+
+    # 使用流程（通用三步，无需额外配置）
+    primary_store = chans[0]["store"] if chans else "应用商店"
+    sc_list = cfg.get("scenarios", [])
+    first_scene = sc_list[0].get("title", "你的日常") if sc_list else "你的日常"
+    steps = [
+        {"n": 1, "title": "获取 %s" % name, "desc": "在%s搜索「%s」即可下载安装，免费开始。" % (esc(primary_store), name)},
+        {"n": 2, "title": "快速上手", "desc": "打开后按引导完成基础设置，1 分钟就能用起来。"},
+        {"n": 3, "title": "日常使用", "desc": "在%s等真实场景中随时调用核心能力。" % esc(first_scene)},
+    ]
+    steps_html = "\n".join(
+        '      <div class="step">\n'
+        '        <div class="step-num">%d</div>\n'
+        '        <h3>%s</h3>\n'
+        '        <p>%s</p>\n'
+        '      </div>' % (s["n"], esc(s["title"]), esc(s["desc"]))
+        for s in steps
+    )
+
+    # 差异化卖点（可选 highlights）
+    hl = cfg.get("highlights", [])
+    if hl:
+        why_items = "\n".join(
+            '      <div class="why-card">\n'
+            '        <div class="why-icon">%s</div>\n'
+            '        <h3>%s</h3>\n'
+            '        <p>%s</p>\n'
+            '      </div>' % (h.get("icon", "✨"), esc(h.get("title", "")), esc(h.get("desc", "")))
+            for h in hl
+        )
+        why_section = (
+            '<section class="section">\n'
+            '  <div class="container">\n'
+            '    <h2 class="section-title">为什么选择 %s</h2>\n'
+            '    <p class="section-subtitle">%s</p>\n'
+            '    <div class="why-grid">\n%s\n    </div>\n'
+            '  </div>\n'
+            '</section>\n' % (name, esc(cfg.get("why_subtitle", "") or "同样的品类，我们更在乎你的真实体验"), why_items)
+        )
+    else:
+        why_section = ""
+
+    # 产品界面示意（通用，复用 features 作为卖点 chips）
+    feat_chips = cfg.get("features", [])[:4]
+    chips_html = "\n".join('          <span class="chip">%s</span>' % esc(f.get("title", "")) for f in feat_chips)
+    showcase_list = "\n".join('          <li>%s</li>' % esc(f.get("title", "")) for f in feat_chips)
+
+    # 用户评价（可选 testimonials）
+    ts = cfg.get("testimonials", [])
+    if ts:
+        rev_items = "\n".join(
+            '      <div class="review-card">\n'
+            '        <div class="review-stars">%s</div>\n'
+            '        <p class="review-quote">%s</p>\n'
+            '        <div class="review-author">\n'
+            '          <div class="avatar">%s</div>\n'
+            '          <div><div class="review-name">%s</div><div class="review-role">%s</div></div>\n'
+            '        </div>\n'
+            '      </div>' % ("★" * int(t.get("stars", 5)),
+                              esc(t.get("quote", "")),
+                              esc((t.get("name", "")[0] if t.get("name") else "用")),
+                              esc(t.get("name", "")), esc(t.get("role", "")))
+            for t in ts
+        )
+        reviews_section = (
+            '<section class="section section-alt">\n'
+            '  <div class="container">\n'
+            '    <h2 class="section-title">用户怎么说</h2>\n'
+            '    <p class="section-subtitle">真实用户的反馈，比广告更有说服力</p>\n'
+            '    <div class="reviews-grid">\n%s\n    </div>\n'
+            '  </div>\n'
+            '</section>\n' % rev_items
+        )
+    else:
+        reviews_section = ""
 
     app_ld = {
         "@context": "https://schema.org", "@type": "MobileApplication",
@@ -353,6 +476,16 @@ def build_landing(cfg):
   </div>
 </section>
 
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">三步开始使用 %(name)s</h2>
+    <p class="section-subtitle">从下载到日常使用，几分钟就能上手</p>
+    <div class="steps-grid">
+%(steps)s
+    </div>
+  </div>
+</section>
+
 <section class="stats">
   <div class="container stats-grid">
     <div><strong>%(rating)s</strong><span>用户评分</span></div>
@@ -372,6 +505,7 @@ def build_landing(cfg):
   </div>
 </section>
 
+%(why_section)s
 <section class="section section-alt">
   <div class="container">
     <h2 class="section-title">适用场景</h2>
@@ -382,6 +516,40 @@ def build_landing(cfg):
   </div>
 </section>
 
+<section class="section">
+  <div class="container">
+    <div class="showcase">
+      <div class="showcase-copy">
+        <h2>看得见的简洁，用得上的智能</h2>
+        <p>%(desc)s</p>
+        <ul class="showcase-list">
+%(showcase_list)s
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-brand">%(category)s</div>
+          <div class="phone-name">%(name)s</div>
+          <div class="phone-tag">%(tagline)s</div>
+          <div class="phone-chips">
+%(chips)s
+          </div>
+          <div class="phone-bars">
+            <div class="bar" style="height:40%%"></div>
+            <div class="bar" style="height:62%%"></div>
+            <div class="bar" style="height:48%%"></div>
+            <div class="bar" style="height:80%%"></div>
+            <div class="bar" style="height:56%%"></div>
+          </div>
+          <div class="phone-foot">你的数据，实时可见</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+%(reviews_section)s
 <section class="download-section">
   <div class="container">
     <h2>立即开始使用 %(name)s</h2>
@@ -434,6 +602,8 @@ document.querySelectorAll('.faq-question').forEach(function(q){
         "feats": feats, "scenes": scenes, "dl_btns": dl_btns, "faq_html": faq_html,
         "hero_btns": hero_btns, "slogan": slogan, "year": year, "team": team,
         "email": email, "kws": kws,
+        "steps": steps_html, "why_section": why_section,
+        "showcase_list": showcase_list, "chips": chips_html, "reviews_section": reviews_section,
         "app_ld": json.dumps(app_ld, ensure_ascii=False, indent=2),
         "faq_ld": json.dumps(faq_ld, ensure_ascii=False, indent=2),
         "nav_url": nav_url, "nav_store": nav_store,
