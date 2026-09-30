@@ -20,6 +20,7 @@ import datetime
 import json
 import os
 import re
+import shutil
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -167,6 +168,13 @@ a{text-decoration:none;color:inherit}
 .download-btn .icon{font-size:26px}
 .download-btn .text small{display:block;font-size:12px;color:#8b90a0;font-weight:400}
 
+/* 微信支付 */
+.pay-card{max-width:440px;margin:0 auto;background:#fff;border:2px solid #07c160;border-radius:var(--radius);padding:40px 32px;text-align:center;box-shadow:0 16px 40px rgba(7,193,96,.14)}
+.pay-price{font-size:46px;font-weight:800;color:#07c160;line-height:1.1}
+.pay-item{font-size:16px;font-weight:600;margin:10px 0 22px;color:var(--ink)}
+.pay-qr{width:232px;height:232px;border:1px solid var(--line);border-radius:12px;padding:8px;background:#fff}
+.pay-note{font-size:13px;color:var(--muted);margin-top:16px;line-height:1.7}
+
 /* FAQ */
 .faq-wrapper{max-width:840px;margin:0 auto}
 .faq-item{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:14px;overflow:hidden;transition:.25s}
@@ -254,6 +262,30 @@ def build_landing(cfg):
     email = esc(cfg.get("contact_email", ""))
     rating = esc(cfg.get("rating_value", "—"))
     rating_count = esc(cfg.get("rating_count", "0"))
+
+    # 微信收款（个人收款码 + 人工交付，静态站无后端）
+    pay = cfg.get("payment", {}) or {}
+    pay_price = esc(str(pay.get("price", "9.9")))
+    pay_item = esc(pay.get("item", "完整版高级内容"))
+    pay_title = esc(pay.get("title", "付费解锁完整版"))
+    pay_note = esc(pay.get("note") or ("截图发送至 %s，人工核对后为你开通" % (cfg.get("contact_email") or "页面底部联系方式")))
+    if pay and pay.get("enabled", True):
+        pay_section = (
+            '<section class="section section-alt" id="pay">\n'
+            '  <div class="container">\n'
+            '    <h2 class="section-title">%s</h2>\n'
+            '    <p class="section-subtitle">仅支持微信收款 · 扫码支付后人工开通</p>\n'
+            '    <div class="pay-card">\n'
+            '      <div class="pay-price">¥%s</div>\n'
+            '      <div class="pay-item">%s</div>\n'
+            '      <img class="pay-qr" src="assets/wechat-pay-qr.png" alt="微信收款码">\n'
+            '      <p class="pay-note">打开微信「扫一扫」付款 → %s</p>\n'
+            '    </div>\n'
+            '  </div>\n'
+            '</section>\n' % (pay_title, pay_price, pay_item, pay_note)
+        )
+    else:
+        pay_section = ""
 
     feats = "\n".join(
         '      <div class="feature-card">\n'
@@ -560,6 +592,7 @@ def build_landing(cfg):
   </div>
 </section>
 
+%(pay_section)s
 <section class="section">
   <div class="container">
     <h2 class="section-title">常见问题 FAQ</h2>
@@ -604,6 +637,7 @@ document.querySelectorAll('.faq-question').forEach(function(q){
         "email": email, "kws": kws,
         "steps": steps_html, "why_section": why_section,
         "showcase_list": showcase_list, "chips": chips_html, "reviews_section": reviews_section,
+        "pay_section": pay_section,
         "app_ld": json.dumps(app_ld, ensure_ascii=False, indent=2),
         "faq_ld": json.dumps(faq_ld, ensure_ascii=False, indent=2),
         "nav_url": nav_url, "nav_store": nav_store,
@@ -988,6 +1022,17 @@ def main():
             f.write(body)
         files.append(fn)
         print("  生成 %-18s %6d 字符" % (fn, len(body)))
+
+    # 微信收款码随落地页一起输出
+    pay = cfg.get("payment", {}) or {}
+    if pay and pay.get("enabled", True):
+        qr_src = os.path.normpath(os.path.join(HERE, os.pardir, "assets", "wechat-pay-qr.png"))
+        if os.path.exists(qr_src):
+            os.makedirs(os.path.join(out, "assets"), exist_ok=True)
+            shutil.copyfile(qr_src, os.path.join(out, "assets", "wechat-pay-qr.png"))
+            print("  生成 %-18s" % "assets/wechat-pay-qr.png")
+        else:
+            print("  ⚠️ 未找到收款码 assets/wechat-pay-qr.png，落地页支付区块将缺图")
 
     with open(os.path.join(out, "REPORT.md"), "w", encoding="utf-8") as f:
         f.write(build_report(cfg, files, warnings))

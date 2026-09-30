@@ -168,6 +168,18 @@ footer a{color:var(--brand);font-weight:600}
         </div>
       </div>
 
+      <label>微信收款（个人收款码 + 人工交付，仅支持微信）</label>
+      <div class="grid2">
+        <div>
+          <input id="f_pay_price" value="9.9" placeholder="价格（¥）">
+          <input id="f_pay_item" value="完整版高级内容" style="margin-top:6px" placeholder="收费项目名称">
+        </div>
+        <div>
+          <input id="f_pay_title" value="付费解锁完整版" placeholder="区块标题">
+          <input id="f_pay_note" value="" style="margin-top:6px" placeholder="交付说明（留空用默认文案）">
+        </div>
+      </div>
+
       <label>核心功能（每行：图标|标题|描述）</label>
       <textarea id="f_features" rows="5">🏃|智能跑步计划|根据目标与体能生成个性化跑步方案，自动调节配速与里程。
 📊|运动数据看板|步频、心率、消耗、训练负荷一屏掌握，趋势一目了然。
@@ -309,6 +321,7 @@ function buildCfg(){
     platform:val("f_platform"), os_list:val("f_platform"), category:val("f_category"),
     positioning:val("f_positioning"), description:val("f_description"), pain_point:val("f_pain_point"),
     price:"0", currency:"CNY", rating_value:"4.8", rating_count:"3260",
+    payment:{enabled:true, price:val("f_pay_price")||"9.9", item:val("f_pay_item")||"完整版高级内容", title:val("f_pay_title")||"付费解锁完整版", note:val("f_pay_note")},
     website:val("f_website"), contact_email:val("f_email"),
     team:val("f_name")+"团队", copyright_year:String(new Date().getFullYear()),
     features:feats, scenarios:scenes, faq:faq, channels:chans,
@@ -427,6 +440,13 @@ a{text-decoration:none;color:inherit}
 .download-btn:hover{transform:translateY(-4px)}
 .download-btn .icon{font-size:26px}
 .download-btn .text small{display:block;font-size:12px;color:#8b90a0;font-weight:400}
+
+/* 微信支付 */
+.pay-card{max-width:440px;margin:0 auto;background:#fff;border:2px solid #07c160;border-radius:var(--radius);padding:40px 32px;text-align:center;box-shadow:0 16px 40px rgba(7,193,96,.14)}
+.pay-price{font-size:46px;font-weight:800;color:#07c160;line-height:1.1}
+.pay-item{font-size:16px;font-weight:600;margin:10px 0 22px;color:var(--ink)}
+.pay-qr{width:232px;height:232px;border:1px solid var(--line);border-radius:12px;padding:8px;background:#fff}
+.pay-note{font-size:13px;color:var(--muted);margin-top:16px;line-height:1.7}
 
 /* FAQ */
 .faq-wrapper{max-width:840px;margin:0 auto}
@@ -554,6 +574,14 @@ function genLanding(c){
       return `      <div class="review-card">\n        <div class="review-stars">${stars}</div>\n        <p class="review-quote">${esc(t.quote)}</p>\n        <div class="review-author">\n          <div class="avatar">${esc(initial)}</div>\n          <div><div class="review-name">${esc(t.name)}</div><div class="review-role">${esc(t.role)}</div></div>\n        </div>\n      </div>`;
     }).join("\n");
     reviewsSection = `<section class="section section-alt">\n  <div class="container">\n    <h2 class="section-title">用户怎么说</h2>\n    <p class="section-subtitle">真实用户的反馈，比广告更有说服力</p>\n    <div class="reviews-grid">\n${revItems}\n    </div>\n  </div>\n</section>\n`;
+  }
+
+  // 微信收款（个人收款码 + 人工交付）
+  const pay = c.payment || {};
+  let paySection = "";
+  if(pay.enabled !== false){
+    const payContact = esc(pay.note || ("截图发送至 " + (c.contact_email || "页面底部联系方式") + "，人工核对后为你开通"));
+    paySection = `<section class="section section-alt" id="pay">\n  <div class="container">\n    <h2 class="section-title">${esc(pay.title || "付费解锁完整版")}</h2>\n    <p class="section-subtitle">仅支持微信收款 · 扫码支付后人工开通</p>\n    <div class="pay-card">\n      <div class="pay-price">¥${esc(pay.price || "9.9")}</div>\n      <div class="pay-item">${esc(pay.item || "完整版高级内容")}</div>\n      <img class="pay-qr" src="assets/wechat-pay-qr.png" alt="微信收款码">\n      <p class="pay-note">打开微信「扫一扫」付款 → ${payContact}</p>\n    </div>\n  </div>\n</section>\n`;
   }
 
   return `<!DOCTYPE html>
@@ -703,6 +731,7 @@ ${reviewsSection}
   </div>
 </section>
 
+${paySection}
 <section class="section">
   <div class="container">
     <h2 class="section-title">常见问题 FAQ</h2>

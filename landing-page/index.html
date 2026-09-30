@@ -102,6 +102,13 @@ a{text-decoration:none;color:inherit}
 .download-btn .icon{font-size:26px}
 .download-btn .text small{display:block;font-size:12px;color:#8b90a0;font-weight:400}
 
+/* 微信支付 */
+.pay-card{max-width:440px;margin:0 auto;background:#fff;border:2px solid #07c160;border-radius:var(--radius);padding:40px 32px;text-align:center;box-shadow:0 16px 40px rgba(7,193,96,.14)}
+.pay-price{font-size:46px;font-weight:800;color:#07c160;line-height:1.1}
+.pay-item{font-size:16px;font-weight:600;margin:10px 0 22px;color:var(--ink)}
+.pay-qr{width:232px;height:232px;border:1px solid var(--line);border-radius:12px;padding:8px;background:#fff}
+.pay-note{font-size:13px;color:var(--muted);margin-top:16px;line-height:1.7}
+
 /* FAQ */
 .faq-wrapper{max-width:840px;margin:0 auto}
 .faq-item{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:14px;overflow:hidden;transition:.25s}
@@ -351,6 +358,19 @@ footer{background:#0f1220;color:#aeb3c2;padding:52px 0 34px;text-align:center}
         <span class="icon">🌐</span>
         <span class="text">官网下载页<small>智能分流跳转</small></span>
       </a>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="pay">
+  <div class="container">
+    <h2 class="section-title">付费解锁完整版</h2>
+    <p class="section-subtitle">仅支持微信收款 · 扫码支付后人工开通</p>
+    <div class="pay-card">
+      <div class="pay-price">¥9.9</div>
+      <div class="pay-item">进阶训练营完整课程</div>
+      <img class="pay-qr" src="../assets/wechat-pay-qr.png" alt="微信收款码">
+      <p class="pay-note">打开微信「扫一扫」付款 → 付款后请截图联系客服，人工核对后为你开通</p>
     </div>
   </div>
 </section>
